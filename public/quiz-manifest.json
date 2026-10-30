@@ -1,0 +1,25 @@
+{
+  "id": "islamic-grade1",
+  "quizId": "islamic-grade1",
+  "title": "التربية الإسلامية - الأول الابتدائي",
+  "description": "اختبار تدريبي للاختبار الأول في التربية الإسلامية (الكتاب الأول ١-١) للصف الأول: ربنا الله تعالى، أركان الإسلام، العبادة، الرسول محمد ﷺ، حب الوالدين وبرهما.",
+  "recommendedAge": "5–7",
+  "basePath": "/islamic-grade1-quiz/",
+  "questionsPerRound": 8,
+  "testQuestions": 8,
+  "topics": [
+    "rabbi",
+    "arkan",
+    "ibada",
+    "rasul",
+    "walidain"
+  ],
+  "capabilities": {
+    "audio": true,
+    "adaptive": true,
+    "progress": true,
+    "answerReview": true,
+    "challenge": false
+  },
+  "version": "1.0.0"
+}
