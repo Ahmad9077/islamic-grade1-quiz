@@ -37,7 +37,8 @@ screen. The cheers, kind words, test introduction and results are the math quiz'
 and hash). `python3 scripts/generate-audio.py --dry-run` shows what a new recording would cost.
 
 ## Status
-Preview only (30 October 2026): not published, not connected to the Hub, not assigned to any account.
+Published 30 October 2026 at https://haya-nt3lm.com/islamic-grade1-quiz/ and registered in the Hub (migration 023).
+Not assigned to any account.
 
 ## Development
 ```bash
