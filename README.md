@@ -29,8 +29,12 @@ the hadith first, two numbered ✓/✗ sentences, a «صل» board, two «حوّ
 Many questions draw new answers, pictures or pairs every round. Hadith wording is the book's; no
 Quran verses are quoted. The pictures in `public/pics/` are cropped from the book.
 
-Audio: nothing new is recorded yet; questions are read on screen. The cheers, kind words, test
-introduction and results are Maryam's clips copied from the math quiz with the same text and hash.
+Audio (Maryam, Kuwaiti): the five most common instruction lines of the paper are read aloud when a
+question opens, with a button to hear them again («أكمل الحديث…», «أكمل الدعاء…», «ضع علامة صح…»,
+«حوّط الإجابة…», «صل بين العبارة…»), recorded on 30 October 2026 from the credits left before the
+2 November reset (216 characters). Other instructions, the sentences and the choices are read on
+screen. The cheers, kind words, test introduction and results are the math quiz's clips (same text
+and hash). `python3 scripts/generate-audio.py --dry-run` shows what a new recording would cost.
 
 ## Status
 Preview only (30 October 2026): not published, not connected to the Hub, not assigned to any account.

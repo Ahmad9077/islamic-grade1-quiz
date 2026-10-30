@@ -21,8 +21,8 @@ test("a lesson starts straight away with the exam's heading and instruction", as
   await expect(page.locator('.paper-pill')).toHaveText(/السؤال الأول/)
   const { question } = await current(page)
   await expect(page.locator('.instruction')).toHaveText(question.instruction)
-  // Nothing new was recorded, so the question has no replay button.
-  await expect(page.locator('.paper-head button')).toHaveCount(0)
+  // The five common instruction lines are read aloud and can be replayed; the others are read on screen.
+  await expect(page.locator('.paper-head button')).toHaveCount(question.ask.length > 0 ? 1 : 0)
 })
 
 test('a full round gives feedback, stars and a review of misses', async ({ page }) => {

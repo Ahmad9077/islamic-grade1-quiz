@@ -12,8 +12,37 @@
     "similarity_boost": 0.8,
     "style": 0.2
   },
-  "note": "No new recordings for this quiz yet. These are Maryam's shared phrases, copied from the math quiz with the same text and hash.",
   "clips": {
+    "ar/say/choose": {
+      "text": "حوّط الإجابة الصحيحة بين القوسين.",
+      "hash": "24d855caff7ae4ec",
+      "durationMs": 2821,
+      "bytes": 23030
+    },
+    "ar/say/dua": {
+      "text": "أكمل الدعاء بالكلمة المناسبة بين القوسين.",
+      "hash": "655ab859531ea3b7",
+      "durationMs": 3331,
+      "bytes": 27210
+    },
+    "ar/say/hadith": {
+      "text": "أكمل الحديث الشريف بالكلمة المناسبة بين القوسين.",
+      "hash": "6ad315516b25f237",
+      "durationMs": 3903,
+      "bytes": 31807
+    },
+    "ar/say/match": {
+      "text": "صِل بين العبارة وما يناسبها.",
+      "hash": "70faec323735936e",
+      "durationMs": 2638,
+      "bytes": 21567
+    },
+    "ar/say/tf": {
+      "text": "ضع علامة صح أمام العبارة الصحيحة، وعلامة خطأ أمام العبارة الخاطئة.",
+      "hash": "02fbdc7fa6238869",
+      "durationMs": 5676,
+      "bytes": 46018
+    },
     "ar/ui/cheer-1": {
       "text": "كفو!",
       "hash": "691bf115203a21a3",

@@ -12,7 +12,8 @@
 // («أكمل الحديث الشريف…», «ضع علامة…», «صل…», «حوّط…»), so the child learns to recognise it.
 // Hadith wording is the book's. Pictures are the book's own illustrations (public/pics/).
 // Questions with a draw take new answers or pictures every round, so attempts keep changing.
-// No new recordings yet: Maryam's shared phrases only. Question keys are permanent Hub ids.
+// Voice: Maryam's shared phrases, and the five most common instruction lines (SAY_SPOKEN).
+// Question keys are permanent Hub ids.
 // This file is self-contained so Node scripts can import it directly.
 
 export const QUIZ_ID = 'islamic-grade1'
@@ -84,6 +85,7 @@ export type PicId = keyof typeof PICS
 // ── Clip ids ──────────────────────────────────────────────────────────────
 export const clip = {
   ui: (id: UiClip) => `ar/ui/${id}`,
+  say: (id: keyof typeof SAY) => `ar/say/${id}`,
 }
 
 // ── Explanations ──────────────────────────────────────────────────────────
@@ -120,6 +122,25 @@ export const SAY = {
   choose: 'حوّط الإجابة الصحيحة بين القوسين.',
   match: 'صل بين العبارة وما يناسبها.',
 } as const
+
+/**
+ * The same lines as Maryam reads them (the user allowed these five from the credits left before
+ * the 2 November reset): the marks are said as words, and a vowel or a shadda is kept only where
+ * the word could be misread («حوّط», and «صِل» that must not sound like «صلِّ»).
+ */
+export const SAY_SPOKEN: Record<keyof typeof SAY, string> = {
+  hadith: 'أكمل الحديث الشريف بالكلمة المناسبة بين القوسين.',
+  dua: 'أكمل الدعاء بالكلمة المناسبة بين القوسين.',
+  tf: 'ضع علامة صح أمام العبارة الصحيحة، وعلامة خطأ أمام العبارة الخاطئة.',
+  choose: 'حوّط الإجابة الصحيحة بين القوسين.',
+  match: 'صِل بين العبارة وما يناسبها.',
+}
+
+/** The recorded instruction line for a question, when its instruction is one of the five. */
+function spoken(instruction: string): string[] {
+  const id = (Object.keys(SAY) as (keyof typeof SAY)[]).find((key) => SAY[key] === instruction)
+  return id ? [clip.say(id)] : []
+}
 
 // ── Questions ─────────────────────────────────────────────────────────────
 export interface Option {
@@ -175,7 +196,7 @@ export interface Question {
   /** The question itself, when there is more than the instruction (a sentence, a question). */
   prompt: string
   cloze?: Cloze
-  /** Spoken question; empty while the questions have no recordings. */
+  /** Spoken question: the exam's instruction line, when it is one of the recorded five. */
   ask: string[]
   /** pick: the choices · circle and mark: the pictures · order: the items in their right order. */
   options: Option[]
@@ -207,7 +228,7 @@ function base(key: string, topic: TopicId, kind: QuestionKind, format: Format, i
     format,
     instruction,
     prompt,
-    ask: [] as string[],
+    ask: spoken(instruction),
     options: [] as Option[],
     pairs: [] as Pair[],
     answer: '',
@@ -539,7 +560,10 @@ export function bare(text: string): string {
 }
 
 export function audioCues(): AudioCue[] {
-  return (Object.keys(UI_CLIPS) as UiClip[]).map((id) => ({ id: clip.ui(id), text: bare(UI_CLIPS[id]), voice: 'ar' }))
+  return [
+    ...(Object.keys(UI_CLIPS) as UiClip[]).map((id): AudioCue => ({ id: clip.ui(id), text: bare(UI_CLIPS[id]), voice: 'ar' })),
+    ...(Object.keys(SAY_SPOKEN) as (keyof typeof SAY)[]).map((id): AudioCue => ({ id: clip.say(id), text: SAY_SPOKEN[id], voice: 'ar' })),
+  ]
 }
 
 /** Every clip a round needs, so it can be loaded before the first question. */

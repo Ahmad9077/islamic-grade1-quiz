@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { CHEERS, HADITH, PICS, QUESTIONS, QUIZ_ID, RETRIES, SAY, TOPICS, audioCues, clip, roundClips, type Question } from '../../src/data/catalog'
+import { CHEERS, HADITH, PICS, QUESTIONS, QUIZ_ID, RETRIES, SAY, SAY_SPOKEN, TOPICS, audioCues, clip, roundClips, type Question } from '../../src/data/catalog'
 import { PRACTICE_SIZE, TEST_PLAN } from '../../src/domain/round'
 
 const DIACRITICS = /[ً-ْٰ]/
@@ -204,7 +204,8 @@ describe('narration', () => {
   it('uses Maryam, the Kuwaiti voice, without diacritics', () => {
     expect(Object.keys(manifest.voices)).toEqual(['ar'])
     expect(manifest.voices.ar!.name).toBe('Maryam Essa - Kuwaiti Calm & Warm')
-    for (const cue of audioCues()) expect(cue.text, cue.id).not.toMatch(DIACRITICS)
+    // Marks only where a word could be misread: «حوّط», and «صِل» that must not sound like «صلِّ».
+    for (const cue of audioCues()) expect(cue.text.replace('حوّط', 'حوط').replace('صِل', 'صل'), cue.id).not.toMatch(DIACRITICS)
   })
 
   it('has a recorded clip for every cue, and no unused clips', () => {
@@ -217,10 +218,20 @@ describe('narration', () => {
     expect(Object.keys(manifest.clips).sort()).toEqual(cues.map((cue) => cue.id).sort())
   })
 
-  it('records nothing new yet: no spoken question, only the shared phrases', () => {
-    for (const q of QUESTIONS) expect(q.ask, q.key).toEqual([])
-    expect(audioCues()).toHaveLength(21)
-    expect(fs.existsSync('scripts/generate-audio.py')).toBe(false)
+  it("reads the exam's five most common instruction lines, and nothing else is new", () => {
+    expect(audioCues()).toHaveLength(26)
+    for (const q of QUESTIONS) {
+      const id = (Object.keys(SAY) as (keyof typeof SAY)[]).find((key) => SAY[key] === q.instruction)
+      expect(q.ask, q.key).toEqual(id ? [clip.say(id)] : [])
+    }
+    expect(QUESTIONS.filter((q) => q.ask.length > 0).length).toBeGreaterThanOrEqual(60)
+  })
+
+  it('says the instruction lines as they are printed, with the marks said as words', () => {
+    for (const id of Object.keys(SAY) as (keyof typeof SAY)[]) {
+      const printed = SAY[id].replace('(✓)', 'صح').replace('(✗)', 'خطأ').replace(/\s+/g, ' ')
+      expect(SAY_SPOKEN[id].replace('حوّط', 'حوّط').replace('صِل', 'صل'), id).toBe(printed)
+    }
   })
 
   it('has a recording for every clip a round can play', () => {
