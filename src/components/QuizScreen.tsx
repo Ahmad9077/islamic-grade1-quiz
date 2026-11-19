@@ -1,43 +1,26 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import { Art } from '../art/Art'
+import { Art, AyaMarker } from '../art/Art'
 import { celebrate } from '../art/confetti'
 import { useNarrator } from '../audio/NarratorContext'
 import type { Cue } from '../audio/player'
 import { sfx } from '../audio/sfx'
-import { CHEERS, RETRIES, clip, roundClips, type Cheer, type Option, type Pair, type Question } from '../data/catalog'
+import { CHEERS, SURAHS, clip, roundClips, verse, type Line as Spoken, type Option, type Pair, type Question, type Subject } from '../data/catalog'
 import { TONES, toneStyle, type ToneId } from '../data/tones'
 import { arabicNumber } from '../domain/format'
 import { arrangeOptions, shuffle, testSlot } from '../domain/round'
+import { cheerFor, kindWord, sayLine } from '../domain/voice'
 import type { Attempt } from '../hub/bridge'
 import { ArrowIcon, BigButton, CloseButton, SpeakerButton, StarIcon, order } from './ui'
-
-/** Cheers rest for this many answers before they can come back. */
-const CHEER_REST = 5
 
 // Narration starts once the question has settled on screen.
 const ASK_DELAY_MS = 380
 
 const ORDINALS = ['الأول', 'الثاني', 'الثالث', 'الرابع', 'الخامس', 'السادس', 'السابع', 'الثامن', 'التاسع', 'العاشر']
 
-/** A random item that was not used recently; the pick joins the recent list. */
-function fresh<T>(items: readonly T[], recent: T[], rest: number): T {
-  const pool = items.filter((item) => !recent.includes(item))
-  const pick = pool[Math.floor(Math.random() * pool.length)] ?? items[0]!
-  recent.push(pick)
-  if (recent.length > rest) recent.shift()
-  return pick
-}
-
-/** A stable number from text, so each round can explain an answer a different way. */
-function spread(text: string): number {
-  let hash = 0
-  for (const char of text) hash = (hash * 31 + char.charCodeAt(0)) >>> 0
-  return hash
-}
-
 export interface Round {
   id: number
   kind: 'practice' | 'test'
+  subject: Subject
   tone: ToneId
   questions: Question[]
 }
@@ -52,28 +35,35 @@ interface QuizScreenProps {
 
 type Phase = 'asking' | 'answered'
 
+const surahOf = (number: number) => (number === SURAHS.masad.number ? SURAHS.masad : SURAHS.nasr)
+
 export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) {
   const narrator = useNarrator()
   const [index, setIndex] = useState(0)
   const [phase, setPhase] = useState<Phase>('asking')
   const [chosen, setChosen] = useState<string | null>(null)
   const [attempts, setAttempts] = useState<Attempt[]>([])
-  const [cheer, setCheer] = useState<Cheer>(CHEERS[0]!)
-  const [retry, setRetry] = useState(RETRIES[0]!)
+  const [speakingOption, setSpeakingOption] = useState<string | null>(null)
+  // What was said after the answer: the cheer or the kind word, then what «إعادة» replays.
+  const [said, setSaid] = useState<{ line: Spoken; replay: Cue[] }>({ line: CHEERS[0]!, replay: [] })
+  const streak = useRef(0)
   const [confirmExit, setConfirmExit] = useState(false)
-  const recentCheers = useRef<Cheer[]>([])
-  const recentRetries = useRef<(typeof RETRIES)[number][]>([])
   const tileRefs = useRef(new Map<string, HTMLElement>())
   const optionsRef = useRef<HTMLDivElement>(null)
 
   const question = round.questions[index]!
   const options = useMemo(() => arrangeOptions(question), [question])
-  // One of the question's explanations, picked afresh for every round.
-  const explanation = useMemo(() => question.explain[spread(`${round.id}:${question.key}`) % question.explain.length]!, [question, round.id])
   const correctOption = question.options.find((option) => option.id === question.answer)
   const tone = round.kind === 'test' ? question.topic : round.tone
-  const explainCues: Cue[] = explanation.clips.map((id, n) => ({ clip: id, gap: n === 0 ? 450 : 200 }))
-  const askCues = useMemo<Cue[]>(() => question.ask.map((id, n) => ({ clip: id, gap: n === 0 ? 0 : 200 })), [question])
+  const afterCues: Cue[] = question.after.map((id, n) => ({ clip: id, gap: n === 0 ? 450 : 250 }))
+  // The question, then each written choice (or verse) while its tile lights up.
+  const askCues = useMemo<Cue[]>(
+    () => [
+      ...question.ask.map((id, n) => ({ clip: id, gap: n === 0 ? 0 : 200, onStart: () => setSpeakingOption(null) })),
+      ...(question.kind === 'pick' ? options : []).flatMap((option) => (option.clip ? [{ clip: option.clip, gap: 320, onStart: () => setSpeakingOption(option.id) }] : [])),
+    ],
+    [question, options],
+  )
 
   // Load every clip of the round up front, so no question waits for its audio.
   useEffect(() => {
@@ -83,7 +73,9 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
   useEffect(() => {
     const opening = intro && index === 0 ? [{ clip: intro }, ...askCues.map((cue, n) => (n === 0 ? { ...cue, gap: 500 } : cue))] : askCues
     if (opening.length === 0) return
-    const timer = window.setTimeout(() => void narrator.play(opening), ASK_DELAY_MS)
+    const timer = window.setTimeout(() => {
+      void narrator.play(opening).then(() => setSpeakingOption(null))
+    }, ASK_DELAY_MS)
     return () => window.clearTimeout(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps -- the introduction plays once, before question one
   }, [askCues, narrator])
@@ -107,24 +99,29 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
     return () => window.clearTimeout(timer)
   }, [phase])
 
+  function replayQuestion() {
+    void narrator.play(askCues).then(() => setSpeakingOption(null))
+  }
+
   function settle(correct: boolean, chosenId: string, anchor?: HTMLElement | null) {
     setPhase('answered')
+    setSpeakingOption(null)
     setAttempts((list) => [...list, { questionKey: question.key, chosen: chosenId, correct }])
     if (correct) {
       sfx.correct()
-      const pick = fresh(CHEERS, recentCheers.current, CHEER_REST)
-      setCheer(pick)
+      streak.current += 1
+      const line = cheerFor(streak.current)
+      setSaid({ line, replay: afterCues })
       celebrate(anchor ?? undefined, TONES[tone].tone)
-      void narrator.play([{ clip: pick.clip, gap: 300 }, ...explainCues])
-    } else if (question.kind !== 'pick') {
-      sfx.wrong()
-      void narrator.play([{ clip: clip.ui('review'), gap: 450 }, ...explainCues])
+      void narrator.play([{ clip: line.clip, gap: 300 }, ...afterCues])
     } else {
       sfx.wrong()
-      const pick = fresh(RETRIES, recentRetries.current, 2)
-      setRetry(pick)
-      const reveal: Cue[] = correctOption?.clip ? [{ clip: correctOption.clip, gap: 120 }] : []
-      void narrator.play([{ clip: pick.clip, gap: 450 }, ...reveal, ...explainCues])
+      streak.current = 0
+      const line = question.kind === 'pick' ? kindWord() : sayLine('review')
+      // A written right answer is read after the kind word; then the hadith, the verse or the sentence.
+      const reveal: Cue[] = question.kind === 'pick' && correctOption?.clip && !correctOption.art.startsWith('aya:') ? [{ clip: correctOption.clip, gap: 160 }] : []
+      setSaid({ line, replay: [...reveal, ...afterCues] })
+      void narrator.play([{ clip: line.clip, gap: 450 }, ...reveal, ...afterCues])
     }
   }
 
@@ -147,6 +144,11 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
     setChosen(null)
   }
 
+  const tryAgain = () => {
+    sfx.wrong()
+    void narrator.play([{ clip: sayLine('again').clip }])
+  }
+
   const lastCorrect = attempts.at(-1)?.correct ?? false
   const answered = phase === 'answered'
   const register = (id: string) => (node: HTMLElement | null) => {
@@ -155,10 +157,17 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
   }
 
   // The paper's heading: «السؤال الأول :» in the mock test, the question's number in a lesson.
-  const slot = round.kind === 'test' ? testSlot(index) : null
+  const slot = round.kind === 'test' ? testSlot(round.subject, index) : null
   const heading = slot ? `السؤال ${ORDINALS[slot.slot - 1] ?? arabicNumber(slot.slot)}` : `السؤال ${ORDINALS[index] ?? arabicNumber(index + 1)}`
   const part = slot && slot.parts > 1 ? slot.part : null
   const tfMark = question.format === 'tf' && answered ? question.answer : null
+  const pickStyle = question.pickStyle ?? 'ring'
+  const optionState = (option: Option) => {
+    const isChosen = chosen === option.id
+    const isAnswer = option.id === question.answer
+    if (!answered) return speakingOption === option.id ? 'is-speaking' : ''
+    return isChosen ? (isAnswer ? 'is-correct' : 'is-wrong') : isAnswer ? 'is-reveal' : 'is-dim'
+  }
 
   return (
     <main className={`screen quiz-screen ${answered ? 'has-feedback' : ''}`} style={toneStyle(tone)}>
@@ -193,17 +202,66 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
             {heading} :
           </span>
           <p className="instruction">{question.instruction}</p>
-          {question.ask.length > 0 ? <SpeakerButton onClick={() => void narrator.play(askCues)} /> : null}
+          <p className="help-line">
+            <SpeakerButton onClick={replayQuestion} label="إعادة السؤال" />
+            <span>{question.help}</span>
+          </p>
         </div>
 
         {question.cloze ? (
           <div className="hadith-card pop" style={order(0, { '--base-delay': '80ms' })}>
             <p className="hadith-lead">{question.cloze.lead}</p>
             <p className="hadith-text">
-              «{question.cloze.before}
-              <span className={`hadith-blank ${answered ? 'is-filled' : ''}`}>{answered ? <span className="ink-word">{correctOption?.label}</span> : '\u00a0'}</span>
-              {question.cloze.after}»
+              <Gap
+                before={`«${question.cloze.before}`}
+                after={`${question.cloze.after}»`}
+                blank={<span className={`hadith-blank ${answered ? 'is-filled' : ''}`}>{answered ? <span className="ink-word">{correctOption?.label}</span> : '\u00a0'}</span>}
+              />
             </p>
+          </div>
+        ) : null}
+
+        {question.verseGap ? (
+          <div className="verse-card pop" style={order(0, { '--base-delay': '80ms' })}>
+            <p className="verse-lead">قالَ تَعالى:</p>
+            <p className="verse-text" lang="ar">
+              <Gap
+                before={`﴿${question.verseGap.before} `}
+                after="﴾ "
+                blank={<span className={`verse-blank ${answered ? 'is-filled' : ''}`}>{answered ? <span className="ink-word quran-ink">{correctOption?.label}</span> : '\u00a0'}</span>}
+              />
+              <AyaMarker n={question.verseGap.n} />
+            </p>
+          </div>
+        ) : null}
+
+        {question.aya && !question.aya.hidden ? (
+          <div className="verse-card pop" style={order(0, { '--base-delay': '80ms' })}>
+            <p className="verse-text" lang="ar">
+              ﴿{verse(surahOf(question.aya.surah), question.aya.n)}﴾ <AyaMarker n={question.aya.n} />
+            </p>
+            <p className="verse-then">ما الآية التي بعدها؟</p>
+          </div>
+        ) : null}
+
+        {question.aya?.hidden ? (
+          <div className="listen-card pop" style={order(0, { '--base-delay': '80ms' })}>
+            <button type="button" className="listen-button press" onClick={() => void narrator.play([{ clip: clip.aya(question.aya!.surah, question.aya!.n) }])}>
+              <span className="listen-icon" aria-hidden="true">
+                🎧
+              </span>
+              <span>استمع إلى الآية</span>
+            </button>
+            <p className="listen-reader">بصوت الشيخ مشاري العفاسي</p>
+          </div>
+        ) : null}
+
+        {question.quranWord ? (
+          <div className="word-card pop" style={order(0, { '--base-delay': '80ms' })}>
+            <span className="word-quran" lang="ar">
+              {question.quranWord}
+            </span>
+            <span className="word-ask">مَعْناها:</span>
           </div>
         ) : null}
 
@@ -225,18 +283,17 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
         {question.kind === 'pick' ? (
           <div
             ref={optionsRef}
-            className={`options holds-${optionKind(options[0]?.art ?? '')} count-${options.length} ${options.some((option) => option.art.startsWith('txt:') && option.label.length > 16) ? 'has-long' : ''}`}
+            className={`options pick-${pickStyle} holds-${optionKind(options[0]?.art ?? '')} count-${options.length} ${options.some((option) => option.art.startsWith('txt:') && option.label.length > 16) ? 'has-long' : ''}`}
           >
             {options.map((option, n) => {
-              const isChosen = chosen === option.id
-              const isAnswer = option.id === question.answer
-              const state = answered ? (isChosen ? (isAnswer ? 'is-correct' : 'is-wrong') : isAnswer ? 'is-reveal' : 'is-dim') : ''
+              const state = optionState(option)
+              const marked = chosen === option.id || (answered && option.id === question.answer)
               return (
                 <div key={option.id} className="option-slot rise" style={order(n, { '--base-delay': '140ms' })}>
                   <button
                     ref={register(option.id)}
                     type="button"
-                    className={`option ${optionKind(option.art)} ${state}`}
+                    className={`option ${optionKind(option.art)} ${state} ${pickStyle === 'fill' && marked ? 'is-painted' : ''}`}
                     onClick={() => answer(option)}
                     disabled={answered}
                     aria-label={option.label}
@@ -245,8 +302,14 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
                     <span className="option-art" aria-hidden="true">
                       <Art art={option.art} />
                     </span>
-                    {isChosen || (answered && isAnswer) ? <InkRing tone={state === 'is-wrong' ? 'miss' : 'good'} /> : null}
+                    {pickStyle === 'ring' && marked ? <InkRing tone={state === 'is-wrong' ? 'miss' : 'good'} /> : null}
                   </button>
+                  {option.caption ? <span className="option-caption">{option.caption}</span> : null}
+                  {pickStyle === 'tick' ? (
+                    <span className={`tick-box ${marked ? `is-ticked ${state === 'is-wrong' ? 'tick-miss' : 'tick-good'}` : ''}`} aria-hidden="true">
+                      {marked ? <span className="ink-mark pop">✓</span> : null}
+                    </span>
+                  ) : null}
                 </div>
               )
             })}
@@ -255,22 +318,19 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
 
         {question.kind === 'match' ? (
           <div ref={optionsRef} className="match-wrap">
-            <MatchBoard
-              question={question}
-              locked={answered}
-              onHit={() => sfx.tap()}
-              onMiss={() => {
-                sfx.wrong()
-                void narrator.play([{ clip: clip.ui('match-wrong') }])
-              }}
-              onDone={(mistakes, board) => settle(mistakes === 0, `mistakes:${mistakes}`, board)}
-            />
+            <MatchBoard question={question} locked={answered} onHit={() => sfx.tap()} onMiss={tryAgain} onDone={(mistakes, board) => settle(mistakes === 0, `mistakes:${mistakes}`, board)} />
           </div>
         ) : null}
 
         {question.kind === 'circle' ? (
           <div ref={optionsRef}>
             <CircleBoard question={question} options={options} locked={answered} onCheck={(picked, board) => settle(sameSet(picked, question.good), picked.join(',') || 'none', board)} />
+          </div>
+        ) : null}
+
+        {question.kind === 'hub' ? (
+          <div ref={optionsRef}>
+            <HubBoard question={question} options={options} locked={answered} onCheck={(picked, board) => settle(sameSet(picked, question.good), picked.join(',') || 'none', board)} />
           </div>
         ) : null}
 
@@ -294,11 +354,11 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
               question={question}
               options={options}
               locked={answered}
-              onHit={() => sfx.tap()}
-              onMiss={() => {
-                sfx.wrong()
-                void narrator.play([{ clip: clip.ui('match-wrong') }])
+              onHit={(option) => {
+                sfx.tap()
+                if (option.clip) void narrator.play([{ clip: option.clip, gap: 120 }])
               }}
+              onMiss={tryAgain}
               onDone={(mistakes, board) => settle(mistakes === 0, `mistakes:${mistakes}`, board)}
             />
           </div>
@@ -319,13 +379,12 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
             )}
             <div className="feedback-titles">
               {lastCorrect ? (
-                <p className="feedback-title">{cheer.text}</p>
+                <p className="feedback-title">{said.line.text}</p>
               ) : question.kind !== 'pick' ? (
-                <p className="feedback-title">خلنا نتذكر:</p>
+                <p className="feedback-title">{said.line.text}</p>
               ) : (
                 <>
-                  <p className="feedback-encourage">{retry.text}</p>
-                  <p className="feedback-title">الجواب الصحيح:</p>
+                  <p className="feedback-encourage">{said.line.text}</p>
                   {correctOption ? (
                     <span className={`feedback-answer ${optionKind(correctOption.art)}`} aria-label={correctOption.label}>
                       <Art art={correctOption.art} />
@@ -335,15 +394,13 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
               )}
             </div>
           </div>
-          <ul className="feedback-facts">
-            {explanation.text.split('\n').map((line) => (
-              <li key={line} className="feedback-fact">
-                {line}
-              </li>
-            ))}
-          </ul>
+          {question.explain ? (
+            <ul className="feedback-facts">
+              <li className="feedback-fact">{question.explain}</li>
+            </ul>
+          ) : null}
           <div className="feedback-actions">
-            {explainCues.length > 0 ? <SpeakerButton onClick={() => void narrator.play(explainCues)} label="إعادة الشرح" /> : <span />}
+            {said.replay.length > 0 ? <SpeakerButton onClick={() => void narrator.play(said.replay)} label="إعادة" /> : <span />}
             <BigButton onClick={next} pulse className="next-button">
               {index + 1 >= round.questions.length ? 'النتيجة' : 'التالي'}
               <ArrowIcon direction="next" />
@@ -369,6 +426,123 @@ export function QuizScreen({ round, intro, onExit, onFinish }: QuizScreenProps) 
         </div>
       ) : null}
     </main>
+  )
+}
+
+// ── «صل سورة … بمكملاتها الصحيحة» ───────────────────────────────────────────
+interface HubBoardProps {
+  question: Question
+  options: Option[]
+  locked: boolean
+  onCheck: (picked: string[], board: HTMLElement | null) => void
+}
+
+/** The book's star: the surah in the middle, four facts around it, joined to the middle with a line. */
+function HubBoard({ question, options, locked, onCheck }: HubBoardProps) {
+  const [picked, setPicked] = useState<string[]>([])
+  const [lines, setLines] = useState<{ id: string; x1: number; y1: number; x2: number; y2: number }[]>([])
+  const boardRef = useRef<HTMLDivElement>(null)
+  const centerRef = useRef<HTMLSpanElement>(null)
+  const refs = useRef(new Map<string, HTMLButtonElement>())
+  const shown = locked ? [...new Set([...picked, ...question.good])] : picked
+
+  useLayoutEffect(() => {
+    function measure() {
+      const board = boardRef.current?.getBoundingClientRect()
+      const center = centerRef.current?.getBoundingClientRect()
+      if (!board || !center) return
+      setLines(
+        shown.flatMap((id) => {
+          const box = refs.current.get(id)?.getBoundingClientRect()
+          if (!box) return []
+          return [
+            {
+              id,
+              x1: center.left + center.width / 2 - board.left,
+              y1: center.top + center.height / 2 - board.top,
+              x2: box.left + box.width / 2 - board.left,
+              y2: box.top + box.height / 2 - board.top,
+            },
+          ]
+        }),
+      )
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `shown` follows picked and locked
+  }, [picked, locked])
+
+  function toggle(id: string) {
+    if (locked) return
+    sfx.tap()
+    setPicked((list) => (list.includes(id) ? list.filter((other) => other !== id) : [...list, id]))
+  }
+
+  const lineState = (id: string) => (locked ? (question.good.includes(id) ? (picked.includes(id) ? 'is-correct' : 'is-reveal') : 'is-wrong') : '')
+
+  return (
+    <div className="hub-wrap">
+      <div ref={boardRef} className="hub-board">
+        <svg className="hub-lines" aria-hidden="true">
+          {lines.map((line) => (
+            <line key={line.id} className={`hub-line ${lineState(line.id)}`} x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} />
+          ))}
+        </svg>
+        <span ref={centerRef} className="hub-center pop">
+          {question.hubCenter}
+        </span>
+        {options.map((option, n) => {
+          const isPicked = picked.includes(option.id)
+          const isGood = question.good.includes(option.id)
+          const state = locked ? (isPicked ? (isGood ? 'is-correct' : 'is-wrong') : isGood ? 'is-reveal' : 'is-dim') : isPicked ? 'is-picked' : ''
+          return (
+            <button
+              key={option.id}
+              ref={(node) => {
+                if (node) refs.current.set(option.id, node)
+                else refs.current.delete(option.id)
+              }}
+              type="button"
+              className={`hub-item hub-item-${n + 1} rise ${state}`}
+              style={order(n, { '--base-delay': '160ms' })}
+              onClick={() => toggle(option.id)}
+              disabled={locked}
+              aria-pressed={isPicked}
+              aria-label={option.label}
+              data-option={option.id}
+            >
+              <Art art={option.art} />
+            </button>
+          )
+        })}
+      </div>
+      {!locked ? (
+        <div className="check-row rise" style={order(options.length, { '--base-delay': '140ms' })}>
+          <CheckButton disabled={picked.length === 0} onClick={() => onCheck(picked, boardRef.current)} />
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+/**
+ * A sentence with its missing word: the blank stays on one line with the word before it, so a
+ * line break can never move it away from its place in the right-to-left text.
+ */
+function Gap({ before, after, blank }: { before: string; after: string; blank: ReactNode }) {
+  const trimmed = before.trimEnd()
+  const at = trimmed.lastIndexOf(' ')
+  const head = at < 0 ? '' : trimmed.slice(0, at + 1)
+  const word = at < 0 ? trimmed : trimmed.slice(at + 1)
+  return (
+    <>
+      {head}
+      <span className="gap-keep">
+        {word} {blank}
+      </span>
+      {after}
+    </>
   )
 }
 
@@ -471,8 +645,9 @@ interface MarkBoardProps {
 function MarkBoard({ question, options, locked, onCheck }: MarkBoardProps) {
   const [marks, setMarks] = useState<Record<string, boolean>>({})
   const boardRef = useRef<HTMLDivElement>(null)
-  const faces = question.marks === 'face'
-  const glyph = (yes: boolean) => (faces ? (yes ? '🙂' : '☹️') : yes ? '✓' : '✗')
+  const colours = question.marks === 'colour'
+  const glyph = (yes: boolean) => (colours ? '' : yes ? '✓' : '✗')
+  const word = (yes: boolean) => (colours ? (yes ? 'أخضر' : 'أزرق') : yes ? 'صح' : 'خطأ')
 
   function choose(id: string, yes: boolean) {
     if (locked) return
@@ -483,33 +658,36 @@ function MarkBoard({ question, options, locked, onCheck }: MarkBoardProps) {
   const done = options.every((option) => option.id in marks)
 
   return (
-    <div ref={boardRef} className={`picture-board mark-board count-${options.length} ${faces ? 'uses-faces' : ''}`}>
+    <div ref={boardRef} className={`picture-board mark-board count-${options.length} ${colours ? 'uses-colours' : ''}`}>
       <div className="picture-grid">
         {options.map((option, n) => {
           const mine = marks[option.id]
           const truth = question.good.includes(option.id)
           const state = locked ? (mine === truth ? 'is-correct' : 'is-wrong') : ''
+          const paint = colours && mine !== undefined ? `paint-${mine ? 'green' : 'blue'}` : ''
           return (
-            <div key={option.id} className={`mark-cell rise ${state}`} style={order(n, { '--base-delay': '140ms' })} data-option={option.id}>
+            <div key={option.id} className={`mark-cell rise ${state} ${paint}`} style={order(n, { '--base-delay': '140ms' })} data-option={option.id}>
               <PictureTile option={option} />
-              <span className="mark-slot" aria-hidden="true">
-                (<span className={`slot-mark ${mine !== undefined ? 'ink-mark' : ''} ${mine === undefined ? '' : `mark-${mine ? 'yes' : 'no'}`}`}>{mine === undefined ? '' : glyph(mine)}</span>)
-              </span>
+              {colours ? null : (
+                <span className="mark-slot" aria-hidden="true">
+                  (<span className={`slot-mark ${mine !== undefined ? 'ink-mark' : ''} ${mine === undefined ? '' : `mark-${mine ? 'yes' : 'no'}`}`}>{mine === undefined ? '' : glyph(mine)}</span>)
+                </span>
+              )}
               {locked ? (
-                mine !== truth ? <span className="mark-truth">{glyph(truth)}</span> : null
+                mine !== truth ? <span className={`mark-truth ${colours ? `truth-${truth ? 'green' : 'blue'}` : ''}`}>{colours ? (truth ? 'برّي' : 'بحري') : glyph(truth)}</span> : null
               ) : (
                 <span className="mark-choices">
                   {[true, false].map((yes) => (
                     <button
                       key={String(yes)}
                       type="button"
-                      className={`mark-choice press mark-choice-${yes ? 'yes' : 'no'} ${mine === yes ? 'is-on' : ''}`}
+                      className={`mark-choice press mark-choice-${yes ? 'yes' : 'no'} ${colours ? `crayon crayon-${yes ? 'green' : 'blue'}` : ''} ${mine === yes ? 'is-on' : ''}`}
                       onClick={() => choose(option.id, yes)}
-                      aria-label={`${option.label}: ${yes ? (faces ? 'عبادة' : 'صح') : faces ? 'ليست عبادة' : 'خطأ'}`}
+                      aria-label={`${option.label}: ${word(yes)}`}
                       aria-pressed={mine === yes}
                       data-mark={yes ? 'yes' : 'no'}
                     >
-                      {glyph(yes)}
+                      {colours ? <span className="crayon-tip" aria-hidden="true" /> : glyph(yes)}
                     </button>
                   ))}
                 </span>
@@ -532,7 +710,7 @@ interface OrderBoardProps {
   question: Question
   options: Option[]
   locked: boolean
-  onHit: () => void
+  onHit: (option: Option) => void
   onMiss: () => void
   onDone: (mistakes: number, board: HTMLElement | null) => void
 }
@@ -543,12 +721,13 @@ function OrderBoard({ question, options, locked, onHit, onMiss, onDone }: OrderB
   const [shaking, setShaking] = useState<string | null>(null)
   const boardRef = useRef<HTMLDivElement>(null)
   const words = !options.some((option) => option.art.startsWith('pic:'))
+  const verses = question.format === 'ayat'
 
   function tap(option: Option) {
     if (locked || placed.includes(option.id)) return
     const expected = question.options[placed.length]
     if (option.id === expected?.id) {
-      onHit()
+      onHit(option)
       const done = [...placed, option.id]
       setPlaced(done)
       if (done.length === question.options.length) window.setTimeout(() => onDone(mistakes, boardRef.current), 350)
@@ -561,7 +740,8 @@ function OrderBoard({ question, options, locked, onHit, onMiss, onDone }: OrderB
   }
 
   return (
-    <div ref={boardRef} className={`order-board ${words ? 'order-words' : 'order-pictures'}`}>
+    <div ref={boardRef} className={`order-board ${verses ? 'order-verses' : words ? 'order-words' : 'order-pictures'}`}>
+      {verses ? null : (
       <div className="order-strip" aria-label="الترتيب">
         {question.options.map((option, n) => {
           const filled = placed[n] ? question.options.find((entry) => entry.id === placed[n]) : null
@@ -573,6 +753,7 @@ function OrderBoard({ question, options, locked, onHit, onMiss, onDone }: OrderB
           )
         })}
       </div>
+      )}
       <div className={`order-items count-${options.length}`}>
         {options.map((option, n) => {
           const at = placed.indexOf(option.id)
@@ -587,12 +768,21 @@ function OrderBoard({ question, options, locked, onHit, onMiss, onDone }: OrderB
               aria-label={option.label}
               data-option={option.id}
             >
-              {words ? (
+              {verses ? (
+                <>
+                  <span className="order-verse">
+                    <Art art={option.art} />
+                  </span>
+                  <span className="order-bracket" aria-hidden="true">
+                    (<span className={at >= 0 ? 'ink-mark pop' : ''}>{at >= 0 ? arabicNumber(at + 1) : '\u00a0'}</span>)
+                  </span>
+                </>
+              ) : words ? (
                 <span className="order-text">{option.label}</span>
               ) : (
                 <PictureTile option={option} />
               )}
-              {at >= 0 ? <span className="order-badge pop">{arabicNumber(at + 1)}</span> : null}
+              {at >= 0 && !verses ? <span className="order-badge pop">{arabicNumber(at + 1)}</span> : null}
             </button>
           )
         })}

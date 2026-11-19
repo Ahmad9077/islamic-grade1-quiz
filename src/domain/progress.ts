@@ -1,9 +1,10 @@
-import { QUIZ_ID, type TopicId } from '../data/catalog'
+import { QUIZ_ID, type Subject, type TopicId } from '../data/catalog'
 
-const STORAGE_KEY = `${QUIZ_ID}:progress:v1`
+// v2: the second test's lessons (24 and 25 November 2026); the first test's stars are left behind.
+const STORAGE_KEY = `${QUIZ_ID}:progress:v2`
 const RECENT_LIMIT = 40
 
-export type StarKey = TopicId | 'test'
+export type StarKey = TopicId | `test-${Subject}`
 
 export interface SavedProgress {
   stars: Partial<Record<StarKey, number>>

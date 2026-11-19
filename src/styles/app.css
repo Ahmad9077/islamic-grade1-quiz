@@ -3163,3 +3163,675 @@ p {
     height: 52px;
   }
 }
+
+/* ══ Second test (24 and 25 November 2026): two subjects, the Quran's verses, colouring ══ */
+@font-face {
+  font-family: 'Quran';
+  src: url('../assets/fonts/scheherazade-new.ttf') format('truetype');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+  --font-quran: 'Quran', 'Noto Naskh Arabic', 'Geeza Pro', serif;
+  --mushaf: #fdf8e8;
+  --mushaf-line: #c9a75a;
+  --crayon-green: #2f9e57;
+  --crayon-green-tint: #c9ecd3;
+  --crayon-blue: #2c7fd1;
+  --crayon-blue-tint: #cfe4fa;
+}
+
+/* ── Home: a block for each subject, with its test day ── */
+.subject-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.subject-block + .subject-block {
+  margin-top: 18px;
+  padding-top: 20px;
+  border-top: 3px dashed var(--star-empty);
+}
+
+.section-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+.section-date {
+  padding: 0 12px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.topic-card-pages {
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1.3;
+}
+
+.topic-card-art .art-big {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--deep);
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  line-height: 1;
+}
+
+.topic-card-art .art-emoji {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: #fff;
+  font-family: var(--font-emoji);
+  font-size: 3rem;
+}
+
+.source-note {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (min-width: 760px) {
+  .topic-grid.count-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .topic-grid.count-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 520px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .topic-grid.count-3 .topic-card,
+  .topic-grid.count-2 .topic-card,
+  .topic-grid.count-3 .topic-card:last-child:nth-child(odd),
+  .topic-grid.count-2 .topic-card:nth-child(4) {
+    grid-column: auto;
+  }
+}
+
+/* ── The help line under the instruction: Maryam's words for this question ── */
+.help-line {
+  flex: 1 1 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: clamp(0.95rem, 3.8vw, 1.1rem);
+  line-height: 1.5;
+}
+
+.help-line .speaker-button {
+  flex: none;
+}
+
+/* ── The Quran: Uthmani text on the mushaf's cream, the verse number in its ornament ── */
+.art-quran,
+.art-aya,
+.verse-text,
+.word-quran {
+  font-family: var(--font-quran);
+  font-weight: 400;
+  font-feature-settings: normal;
+}
+
+.aya-marker {
+  display: inline-block;
+  font-family: var(--font-quran);
+  font-size: 0.8em;
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: baseline;
+  color: var(--sun-deep);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.verse-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 18px 16px;
+  border: var(--edge);
+  border-radius: 28px;
+  background:
+    linear-gradient(var(--mushaf), var(--mushaf)) padding-box,
+    repeating-linear-gradient(45deg, var(--mushaf-line) 0 6px, #e6cf93 6px 12px) border-box;
+  outline: 3px solid var(--mushaf-line);
+  outline-offset: -11px;
+  box-shadow: var(--lift);
+}
+
+.verse-lead {
+  color: var(--deep);
+  font-weight: 900;
+  font-size: clamp(1.05rem, 4.2vw, 1.25rem);
+}
+
+.verse-text {
+  color: #173a2c;
+  font-size: clamp(1.75rem, 7.2vw, 2.45rem);
+  line-height: 2.05;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.verse-blank {
+  display: inline-block;
+  min-width: 3em;
+  margin-inline: 4px;
+  border-bottom: 3px dotted var(--ink-soft);
+  line-height: 1.4;
+  vertical-align: baseline;
+}
+
+.verse-blank.is-filled {
+  min-width: 0;
+  border-bottom-color: transparent;
+}
+
+.quran-ink {
+  font-family: var(--font-quran);
+}
+
+.verse-then {
+  color: var(--deep);
+  font-weight: 900;
+  font-size: clamp(1rem, 4vw, 1.2rem);
+  text-align: center;
+}
+
+/* A verse as a choice: the whole tile holds the text, right to left. */
+.question .option.option-aya {
+  min-height: 74px;
+  padding: 10px 16px;
+  border-radius: 24px;
+  background: var(--mushaf);
+}
+
+.option-aya .option-art {
+  font-size: clamp(1.4rem, 5.6vw, 1.9rem);
+  line-height: 1.9;
+  text-align: center;
+  color: #173a2c;
+}
+
+.options.holds-option-aya {
+  flex-direction: column;
+}
+
+.options.holds-option-aya .option-slot {
+  flex: 1 1 100%;
+  width: 100%;
+}
+
+.question .option.option-qw {
+  min-height: 78px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--mushaf);
+}
+
+.option-qw .option-art {
+  font-size: clamp(1.7rem, 7vw, 2.3rem);
+  line-height: 1.6;
+  color: #173a2c;
+}
+
+.options.holds-option-qw .option-slot {
+  flex: 1 1 calc(33.33% - 12px);
+}
+
+/* «استمع إلى الآية»: the verse is only heard. */
+.listen-card {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 16px;
+  border: var(--edge);
+  border-radius: 28px;
+  background: var(--mushaf);
+  box-shadow: var(--lift);
+}
+
+.listen-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 6px 26px;
+  border: var(--edge);
+  border-radius: 999px;
+  background: var(--tone);
+  box-shadow: var(--lift);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.listen-icon {
+  font-family: var(--font-emoji);
+  font-size: 1.6rem;
+}
+
+.listen-reader {
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* «أفهم معاني المفردات»: the surah's word, large. */
+.word-card {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 10px 16px 14px;
+  border: var(--edge);
+  border-radius: 28px;
+  background: var(--mushaf);
+  box-shadow: var(--lift);
+}
+
+.word-quran {
+  color: #173a2c;
+  font-size: clamp(2.4rem, 11vw, 3.4rem);
+  line-height: 1.7;
+}
+
+.word-ask {
+  color: var(--deep);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+/* A large letter or number as a choice. */
+.question .option.option-big {
+  min-height: 96px;
+  border-radius: 28px;
+}
+
+.option-big .option-art {
+  font-family: var(--font-reading);
+  font-weight: 700;
+  font-size: clamp(3rem, 14vw, 4.2rem);
+  line-height: 1.2;
+  color: var(--deep);
+}
+
+.options.holds-option-big {
+  justify-content: center;
+}
+
+.options.holds-option-big .option-slot {
+  flex: 0 1 120px;
+}
+
+/* «لوّن» / «ظلّل»: the chosen answer is painted, not ringed. */
+.pick-fill .option.is-painted {
+  background: var(--tone);
+  color: #fff;
+}
+
+.pick-fill .option.is-painted .option-art,
+.pick-fill .option.is-painted .art-text::before,
+.pick-fill .option.is-painted .art-text::after {
+  color: #fff;
+}
+
+.pick-fill .option.is-painted.is-wrong {
+  background: var(--miss);
+}
+
+.pick-fill .option.is-painted.is-reveal {
+  background: var(--good);
+}
+
+/* «ضع علامة (✓) تحت الصورة»: a box under each picture. The slot stacks the tile, its name and its box. */
+.option-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.option-slot > .option {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+.option-caption,
+.tick-box {
+  align-self: center;
+}
+
+.option-caption {
+  padding: 0 14px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--tone);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.tick-box {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 44px;
+  border: 3px solid var(--ink);
+  border-radius: 12px;
+  background: var(--paper);
+  font-size: 1.9rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.tick-box.tick-miss .ink-mark {
+  color: var(--miss-deep);
+}
+
+.pick-tick .option-pic .option-art img {
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+/* ── «صل سورة … بمكملاتها»: the surah in the middle of the book's star ── */
+.hub-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hub-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-areas:
+    'a . b'
+    '. c .'
+    'd . e';
+  gap: 18px 6px;
+  align-items: center;
+  justify-items: center;
+  padding: 8px;
+}
+
+.hub-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hub-line {
+  stroke: var(--pen);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.hub-line.is-correct {
+  stroke: var(--good-deep);
+}
+
+.hub-line.is-reveal {
+  stroke: var(--good);
+  stroke-dasharray: 8 8;
+}
+
+.hub-line.is-wrong {
+  stroke: var(--miss);
+}
+
+.hub-center {
+  grid-area: c;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: clamp(116px, 32vw, 150px);
+  aspect-ratio: 1;
+  border: var(--edge);
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff2b8 0 42%, var(--sun) 43% 100%);
+  box-shadow: 0 0 0 6px var(--paper), 0 0 0 9px var(--sun-deep);
+  font-family: var(--font-reading);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 4.6vw, 1.4rem);
+  line-height: 1.4;
+  text-align: center;
+}
+
+.hub-item {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: clamp(112px, 30vw, 150px);
+  aspect-ratio: 1;
+  border: var(--edge);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: var(--lift);
+  font-family: var(--font-reading);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 4.4vw, 1.35rem);
+  line-height: 1.4;
+  text-align: center;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.hub-item-1 {
+  grid-area: a;
+}
+
+.hub-item-2 {
+  grid-area: b;
+}
+
+.hub-item-3 {
+  grid-area: d;
+}
+
+.hub-item-4 {
+  grid-area: e;
+}
+
+.hub-item.is-picked {
+  background: var(--tint);
+  border-color: var(--tone);
+}
+
+.hub-item.is-correct {
+  background: var(--good-tint);
+}
+
+.hub-item.is-wrong {
+  background: var(--miss-tint);
+}
+
+.hub-item.is-reveal {
+  outline: 4px dashed var(--good);
+  outline-offset: 3px;
+}
+
+.hub-item.is-dim {
+  opacity: 0.55;
+}
+
+/* ── «لوّن البرية بالأخضر والبحرية بالأزرق»: two crayons under each picture ── */
+.uses-colours .mark-choice {
+  width: 58px;
+  height: 46px;
+}
+
+.crayon-tip {
+  display: block;
+  width: 30px;
+  height: 22px;
+  border: 2px solid var(--ink);
+  border-radius: 4px 14px 14px 4px;
+  clip-path: polygon(0 0, 70% 0, 100% 50%, 70% 100%, 0 100%);
+}
+
+.crayon-green .crayon-tip {
+  background: var(--crayon-green);
+}
+
+.crayon-blue .crayon-tip {
+  background: var(--crayon-blue);
+}
+
+.mark-cell.paint-green .picture-frame {
+  box-shadow: 0 0 0 6px var(--crayon-green);
+  background: var(--crayon-green-tint);
+}
+
+.mark-cell.paint-blue .picture-frame {
+  box-shadow: 0 0 0 6px var(--crayon-blue);
+  background: var(--crayon-blue-tint);
+}
+
+.mark-truth.truth-green {
+  border-color: var(--crayon-green);
+  color: var(--crayon-green);
+}
+
+.mark-truth.truth-blue {
+  border-color: var(--crayon-blue);
+  color: var(--crayon-blue);
+}
+
+.picture-frame .art-emoji {
+  font-family: var(--font-emoji);
+  font-size: clamp(2.8rem, 12vw, 3.8rem);
+  line-height: 1.2;
+}
+
+/* ── «أكمل أرقام الآيات»: the verses as rows, each with its number between brackets ── */
+.order-verses .order-items {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.order-verses .order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 64px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: var(--mushaf);
+  text-align: start;
+}
+
+.order-verses .order-item.is-placed {
+  opacity: 1;
+  background: var(--good-tint);
+}
+
+.order-verse {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: clamp(1.35rem, 5.4vw, 1.8rem);
+  line-height: 1.85;
+  color: #173a2c;
+}
+
+.order-bracket {
+  flex: none;
+  min-width: 3.2em;
+  color: var(--ink-soft);
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.order-bracket .ink-mark {
+  display: inline-block;
+  min-width: 1em;
+}
+
+/* A match tile that holds a verse or a word of the Quran. */
+.match-item.option-aya .option-art,
+.match-item.option-qw .option-art {
+  font-size: clamp(1.15rem, 4.6vw, 1.5rem);
+  line-height: 1.8;
+  color: #173a2c;
+}
+
+.match-item.option-qw .option-art {
+  font-size: clamp(1.45rem, 5.8vw, 1.9rem);
+}
+
+.gap-keep {
+  white-space: nowrap;
+}
+
+/* Verses and words of the Quran take the width they need (the base .art is a square). */
+.art-aya,
+.art-quran {
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: inherit;
+  white-space: normal;
+}
+
+.art-big {
+  width: auto;
+  height: auto;
+}
+
+/* Three short written choices stay on one line each. */
+.options.holds-option-txt.count-3:not(.has-long) .option.option-txt .art-text {
+  white-space: nowrap;
+  font-size: 0.92em;
+}
+
+.options.holds-option-aya .option-slot {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 100%;
+}
+
+.order-bracket > span {
+  display: inline-block;
+  min-width: 1.3em;
+}
+
+/* A shaking tile near the edge must never make the page scroll sideways. */
+html,
+body {
+  overflow-x: clip;
+}

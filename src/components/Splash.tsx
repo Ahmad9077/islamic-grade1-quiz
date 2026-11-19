@@ -1,8 +1,8 @@
 import { Art, StarMark } from '../art/Art'
 import { BigButton, PreviewBadge, order } from './ui'
 
-/** The book's own pictures around the mark: the five pillars and a few more. */
-const ORBIT = ['pic:pillar-shahada', 'pic:pillar-salah', 'pic:pillar-zakat', 'pic:pillar-hajj', 'pic:pillar-sawm', 'pic:quran-read', 'pic:dua-girl', 'pic:safety']
+/** The books' own pictures around the mark: Allah's creation, and the two mosques of the surahs. */
+const ORBIT = ['pic:creator-earth', 'pic:kaaba', 'pic:flowers', 'pic:creator-river', 'pic:birds', 'pic:madinah', 'pic:sea-life', 'pic:creator-animals']
 
 export function Splash({ onStart }: { onStart: () => void }) {
   return (
@@ -39,12 +39,12 @@ export function Splash({ onStart }: { onStart: () => void }) {
         <div className="logo logo-in">
           <StarMark className="logo-mark" />
           <h1 className="logo-word">التربية الإسلامية</h1>
-          <p className="logo-sub">الكتاب الأول ١-١</p>
+          <p className="logo-sub">والقرآن الكريم</p>
         </div>
       </div>
 
       <p className="splash-tagline rise" style={order(0, { '--base-delay': '450ms' })}>
-        نتدرب على أسئلة اختبار التربية الإسلامية للصف الأول
+        نتدرب على اختبار التربية الإسلامية يوم الثلاثاء، واختبار القرآن الكريم يوم الأربعاء
       </p>
 
       <div className="rise" style={order(0, { '--base-delay': '700ms' })}>

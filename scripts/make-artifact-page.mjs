@@ -9,7 +9,7 @@ const style = html.match(/<link rel="stylesheet"[^>]*href="\.\/(assets\/[^"]+\.c
 if (!script || !style) throw new Error('Could not find the built script and stylesheet in dist/index.html.')
 
 const page = `<title>التربية الإسلامية</title>
-<meta name="description" content="نسخة تجريبية لاختبار التربية الإسلامية الأول للصف الأول (الكتاب الأول ١-١).">
+<meta name="description" content="نسخة تجريبية لاختبار التربية الإسلامية (الثلاثاء ٢٤ نوفمبر) واختبار القرآن الكريم (الأربعاء ٢٥ نوفمبر) للصف الأول.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

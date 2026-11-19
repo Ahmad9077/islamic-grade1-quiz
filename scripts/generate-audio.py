@@ -1,8 +1,11 @@
-"""Generate the narration clips with ElevenLabs into public/audio: Kuwaiti Arabic read by Maryam
-Essa. The cheers, kind words and results are the math quiz's clips (same text and hash, so they
-are skipped); this quiz adds only the exam's instruction lines (ar/say/…).
+"""Generate the narration clips with ElevenLabs into public/audio: the hadiths, sentences and written
+choices in Modern Standard Arabic with Layla (fs/s/…, with diacritics) and instructions and cheers in
+Kuwaiti dialect with Maryam Essa (ar/…, without diacritics). The Quran is never sent to a speech
+engine: the verses are Sheikh Mishary Alafasy's recitation (public/audio/quran/, from the Hub's source).
+
 Usage (from the project root):
   python3 scripts/generate-audio.py [--only id1,id2] [--dry-run]
+
 Clips whose text is unchanged since the last run are skipped, so a rerun costs nothing.
 Raw API output is kept in .audio-raw/ (git-ignored) so loudness and trimming can be
 reprocessed without spending characters. The API key is read from ~/.elevenlabs.env.
@@ -19,19 +22,21 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'public', 'audio')
 RAW = os.path.join(ROOT, '.audio-raw')
 MANIFEST = os.path.join(OUT, 'manifest.json')
-# Kuwaiti: the voice the user approved for «بصمة وأثر».
+# Kuwaiti: the voice the user approved for «بصمة وأثر». Standard Arabic: Layla, the approved
+# reference for Arabic letter sounds, so ظ/ض, ذ/ز and ث/س keep their own sounds.
 VOICES = {
     'ar': {'id': 'w0uhBAmNIG5kUDeaFEsA', 'name': 'Maryam Essa - Kuwaiti Calm & Warm', 'language': 'ar'},
+    'fs': {'id': 'g3YpdjT1OTh9cunaumJs', 'name': 'Layla - Modern Arabic', 'language': 'ar'},
 }
 MODEL = 'eleven_v4'
 SETTINGS = {'stability': 0.5, 'similarity_boost': 0.8, 'style': 0.2}
-# The exam's instruction lines are read a little slower so a young learner can follow them;
-# ar/ui/ matches the math quiz so its cheers are reused.
+# Explanations and single letters are read a little slower so a young learner can follow them.
 SPEED = {
-    'ar/say/': 0.92, 'ar/ui/': 0.96,
+    # The hadiths and sentences are read a little slower, so a first grader can follow every word.
+    'fs/s/': 0.86,
+    'ar/q/': 0.94, 'ar/ui/': 0.96,
 }
-# The user allowed the instruction lines from the credits left before the 2 Nov 2026 reset (359).
-SAFETY_MARGIN = 60
+SAFETY_MARGIN = 400
 CREDITS_PER_CHAR = 0.34
 
 
@@ -48,6 +53,16 @@ def request(url, key, body=None):
     req = urllib.request.Request(url, data=data, headers={'xi-api-key': key, 'Content-Type': 'application/json'})
     with urllib.request.urlopen(req, timeout=90) as response:
         return response.read()
+
+
+def with_retries(call, attempts=3):
+    """A slow connection can time out one request: try it again before giving up."""
+    for attempt in range(attempts):
+        try:
+            return call()
+        except OSError:
+            if attempt == attempts - 1:
+                raise
 
 
 def settings_for(cue_id):
@@ -102,8 +117,17 @@ def main():
         return
 
     key = api_key()
-    sub = json.loads(request('https://api.elevenlabs.io/v1/user/subscription', key))
-    remaining = sub['character_limit'] - sub['character_count']
+    try:
+        # /v1/user answers when /v1/user/subscription times out (seen in November 2026).
+        sub = json.loads(request('https://api.elevenlabs.io/v1/user', key))['subscription']
+        remaining = sub['character_limit'] - sub['character_count']
+    except OSError:
+        # The balance endpoint can time out while speech still works: go on only with a balance
+        # read by hand (ELEVEN_KNOWN_REMAINING), never with a guess.
+        known = os.environ.get('ELEVEN_KNOWN_REMAINING')
+        if not known:
+            sys.exit('Could not read the credit balance; set ELEVEN_KNOWN_REMAINING to the balance shown in ElevenLabs.')
+        remaining = int(known)
     # eleven_v4 bills about a quarter credit per character in Arabic and English (measured Oct 2026); plan for a third.
     estimate = round(cost * CREDITS_PER_CHAR)
     if estimate + SAFETY_MARGIN > remaining:
@@ -116,10 +140,10 @@ def main():
         cached = not force and os.path.exists(raw_path + '.hash') and os.path.exists(raw_path) \
             and open(raw_path + '.hash').read() == text_hash(cue['text'], cue['id'])
         if not cached:
-            audio = request(
+            audio = with_retries(lambda: request(
                 f"https://api.elevenlabs.io/v1/text-to-speech/{voice_for(cue['id'])['id']}?output_format=mp3_44100_128", key,
                 {'text': cue['text'], 'model_id': MODEL, 'language_code': voice_for(cue['id'])['language'], 'voice_settings': settings_for(cue['id'])},
-            )
+            ))
             with open(raw_path, 'wb') as handle:
                 handle.write(audio)
             with open(raw_path + '.hash', 'w') as handle:

@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { A, verse, SURAHS } from '../data/catalog'
 
 interface ArtProps {
   art: string
@@ -34,6 +35,28 @@ export function Art({ art, className = '' }: ArtProps) {
           <img src={`${import.meta.env.BASE_URL}pics/${value}.jpg`} alt="" draggable={false} />
         </span>
       )
+    case 'qw':
+      return (
+        <span className={classes('art-quran')} aria-hidden="true" dir="rtl" lang="ar">
+          {value}
+        </span>
+      )
+    // A verse's text without its number, so a choice never shows where it belongs.
+    case 'aya': {
+      const [surah, n] = value.split(':').map(Number)
+      const source = surah === SURAHS.masad.number ? SURAHS.masad : SURAHS.nasr
+      return (
+        <span className={classes('art-aya')} aria-hidden="true" dir="rtl" lang="ar">
+          {verse(source, n!)}
+        </span>
+      )
+    }
+    case 'big':
+      return (
+        <span className={classes('art-big')} aria-hidden="true">
+          {value}
+        </span>
+      )
     case 'star':
       return <StarMark className={className} />
     default:
@@ -43,6 +66,11 @@ export function Art({ art, className = '' }: ArtProps) {
         </span>
       )
   }
+}
+
+/** The end-of-verse ornament with the verse number, drawn by the Quran font (as on the Hub's Quran pages). */
+export function AyaMarker({ n }: { n: number }) {
+  return <span className="aya-marker">{`\u202D\u06DD${A(n)}\u202C`}</span>
 }
 
 /**

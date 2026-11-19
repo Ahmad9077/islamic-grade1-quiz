@@ -4,6 +4,11 @@
       "id": "w0uhBAmNIG5kUDeaFEsA",
       "name": "Maryam Essa - Kuwaiti Calm & Warm",
       "language": "ar"
+    },
+    "fs": {
+      "id": "g3YpdjT1OTh9cunaumJs",
+      "name": "Layla - Modern Arabic",
+      "language": "ar"
     }
   },
   "model": "eleven_v4",
@@ -13,161 +18,1373 @@
     "style": 0.2
   },
   "clips": {
-    "ar/say/choose": {
-      "text": "حوّط الإجابة الصحيحة بين القوسين.",
-      "hash": "24d855caff7ae4ec",
-      "durationMs": 2821,
-      "bytes": 23030
-    },
-    "ar/say/dua": {
-      "text": "أكمل الدعاء بالكلمة المناسبة بين القوسين.",
-      "hash": "655ab859531ea3b7",
-      "durationMs": 3331,
-      "bytes": 27210
-    },
-    "ar/say/hadith": {
-      "text": "أكمل الحديث الشريف بالكلمة المناسبة بين القوسين.",
-      "hash": "6ad315516b25f237",
-      "durationMs": 3903,
+    "ar/q/ayat-1": {
+      "text": "نرتب آيات السورة، من الآية الأولى للأخيرة.",
+      "hash": "f00d80cf3e26a71d",
+      "durationMs": 3913,
       "bytes": 31807
     },
-    "ar/say/match": {
-      "text": "صِل بين العبارة وما يناسبها.",
-      "hash": "70faec323735936e",
-      "durationMs": 2638,
-      "bytes": 21567
+    "ar/q/ayat-2": {
+      "text": "أي آية تجي أول؟ نعطي كل آية رقمها.",
+      "hash": "d8bd785f32271014",
+      "durationMs": 3421,
+      "bytes": 27837
     },
-    "ar/say/tf": {
-      "text": "ضع علامة صح أمام العبارة الصحيحة، وعلامة خطأ أمام العبارة الخاطئة.",
-      "hash": "02fbdc7fa6238869",
-      "durationMs": 5676,
-      "bytes": 46018
+    "ar/q/choose-1": {
+      "text": "نسمع السؤال، ونحط دائرة على الجواب الصح.",
+      "hash": "54c5d804ec7268dc",
+      "durationMs": 3460,
+      "bytes": 28255
+    },
+    "ar/q/choose-2": {
+      "text": "شنو الجواب المناسب؟ نختاره من الخيارات.",
+      "hash": "54471bbe5113aa36",
+      "durationMs": 3307,
+      "bytes": 27001
+    },
+    "ar/q/choose-3": {
+      "text": "ناخذ وقتنا، ونختار الجواب الصحيح.",
+      "hash": "9b925a2fa4ce6fab",
+      "durationMs": 3096,
+      "bytes": 25329
+    },
+    "ar/q/circle-1": {
+      "text": "يمكن أكثر من صورة صح، نحط دائرة على كل وحدة.",
+      "hash": "eabb1b441c8a8546",
+      "durationMs": 4151,
+      "bytes": 33688
+    },
+    "ar/q/circle-2": {
+      "text": "ندور كل الصور الصح، وبعدين نضغط تحقق.",
+      "hash": "5b35c386489598de",
+      "durationMs": 3948,
+      "bytes": 32225
+    },
+    "ar/q/cloze-1": {
+      "text": "الحديث ناقصه كلمة، نختار الكلمة اللي تكمله.",
+      "hash": "cb281ff0cfbb4786",
+      "durationMs": 4295,
+      "bytes": 34942
+    },
+    "ar/q/cloze-2": {
+      "text": "نسمع الكلمتين، وأي وحدة تكمل الحديث صح؟",
+      "hash": "1ac7ca1298c52b33",
+      "durationMs": 3716,
+      "bytes": 30345
+    },
+    "ar/q/cloze-3": {
+      "text": "نكمل الحديث الشريف بالكلمة المناسبة.",
+      "hash": "b2bdf5694bb182f7",
+      "durationMs": 2990,
+      "bytes": 24493
+    },
+    "ar/q/colour-1": {
+      "text": "اللي يعيش في البر نلونه أخضر، واللي يعيش في البحر نلونه أزرق.",
+      "hash": "ff5a8915574e8963",
+      "durationMs": 5171,
+      "bytes": 41838
+    },
+    "ar/q/colour-2": {
+      "text": "البر أخضر والبحر أزرق، يلا نلون!",
+      "hash": "c45705001ca7083f",
+      "durationMs": 3720,
+      "bytes": 30345
+    },
+    "ar/q/fill-1": {
+      "text": "نلون الجواب الصحيح بلون حلو.",
+      "hash": "7e90f5ed92eccf31",
+      "durationMs": 2676,
+      "bytes": 21985
+    },
+    "ar/q/fill-2": {
+      "text": "أي وحدة هي الصح؟ نلونها.",
+      "hash": "a0e271236cdc23ee",
+      "durationMs": 2480,
+      "bytes": 20314
+    },
+    "ar/q/hub-1": {
+      "text": "نوصل اسم السورة بالكلمات اللي تناسبها.",
+      "hash": "d3518dfdc5394f51",
+      "durationMs": 3132,
+      "bytes": 25538
+    },
+    "ar/q/hub-2": {
+      "text": "شنو يناسب هالسورة؟ نوصله بخط.",
+      "hash": "289fb42f3cd5d142",
+      "durationMs": 2884,
+      "bytes": 23657
+    },
+    "ar/q/letter-1": {
+      "text": "ندور الحرف اللي تعلمناه في السورة.",
+      "hash": "6e4c2a8559544d98",
+      "durationMs": 2645,
+      "bytes": 21776
+    },
+    "ar/q/letter-2": {
+      "text": "نطالع زين، ونحط دائرة على الجواب.",
+      "hash": "be6f6c4e9d9e3bf9",
+      "durationMs": 3112,
+      "bytes": 25538
+    },
+    "ar/q/listen-1": {
+      "text": "نسمع التلاوة زين، هذي من أي سورة؟",
+      "hash": "8ea2670ccd7f1a01",
+      "durationMs": 3565,
+      "bytes": 29091
+    },
+    "ar/q/listen-2": {
+      "text": "نسمع الآية، ونختار اسم سورتها.",
+      "hash": "1708c84c75912c96",
+      "durationMs": 2987,
+      "bytes": 24493
+    },
+    "ar/q/mark-1": {
+      "text": "كل صورة تاخذ علامة، صح أو خطأ.",
+      "hash": "c649a5f7d63c0908",
+      "durationMs": 3457,
+      "bytes": 28255
+    },
+    "ar/q/mark-2": {
+      "text": "نطالع كل صورة بروحها، ونحط تحتها العلامة المناسبة.",
+      "hash": "cc45693a675778fd",
+      "durationMs": 4431,
+      "bytes": 35987
+    },
+    "ar/q/match-1": {
+      "text": "نبدا من اليمين، ونوصل كل وحدة باللي يناسبها.",
+      "hash": "fd9fbd4acf3b5fbb",
+      "durationMs": 3738,
+      "bytes": 30554
+    },
+    "ar/q/match-2": {
+      "text": "كل كلمة لها شريك، نوصلهم مع بعض.",
+      "hash": "9d012c273ad2d195",
+      "durationMs": 3493,
+      "bytes": 28464
+    },
+    "ar/q/match-3": {
+      "text": "نختار من المجموعة ألف، وبعدين شريكها من المجموعة باء.",
+      "hash": "d19b9ebd938a5993",
+      "durationMs": 4849,
+      "bytes": 39331
+    },
+    "ar/q/meaning-1": {
+      "text": "شنو معنى هالكلمة؟ نختار المعنى الصح.",
+      "hash": "36172cae6741339e",
+      "durationMs": 3282,
+      "bytes": 26792
+    },
+    "ar/q/meaning-2": {
+      "text": "كل كلمة لها معنى، نختار معناها.",
+      "hash": "ff79ebadbae8a990",
+      "durationMs": 3486,
+      "bytes": 28464
+    },
+    "ar/q/next-1": {
+      "text": "نسمع الآية، وأي آية تجي بعدها؟",
+      "hash": "1b6dfad0668c0c63",
+      "durationMs": 3213,
+      "bytes": 26165
+    },
+    "ar/q/next-2": {
+      "text": "نكمل السورة، شنو الآية اللي بعد هذي؟",
+      "hash": "d4254757334a0c56",
+      "durationMs": 3040,
+      "bytes": 24911
+    },
+    "ar/q/order-1": {
+      "text": "نرتب الكلمات، ونسوي منها جملة.",
+      "hash": "d44e519d88f64903",
+      "durationMs": 2931,
+      "bytes": 24075
+    },
+    "ar/q/order-2": {
+      "text": "أي كلمة تجي أول؟ نرتبهم وحدة وحدة.",
+      "hash": "9b99c2a67bfd4c54",
+      "durationMs": 3600,
+      "bytes": 29300
+    },
+    "ar/q/picture-1": {
+      "text": "نطالع الصور زين، ونحط دائرة على الصورة الصح.",
+      "hash": "10af7f553a94442a",
+      "durationMs": 3794,
+      "bytes": 30972
+    },
+    "ar/q/picture-2": {
+      "text": "صورة وحدة بس تناسب السؤال، وينها؟",
+      "hash": "bf89e4b9c7965d64",
+      "durationMs": 3440,
+      "bytes": 28046
+    },
+    "ar/q/tf-1": {
+      "text": "نسمع الجملة زين، صح ولا خطأ؟",
+      "hash": "501158727d6762e1",
+      "durationMs": 2969,
+      "bytes": 24284
+    },
+    "ar/q/tf-2": {
+      "text": "إذا الجملة صحيحة نحط صح، وإذا غلط نحط خطأ.",
+      "hash": "196662762ca2ffa6",
+      "durationMs": 4669,
+      "bytes": 37868
+    },
+    "ar/q/tf-3": {
+      "text": "جملة وحدة، ونحكم عليها بعلامة.",
+      "hash": "48c5b752de2beea3",
+      "durationMs": 2859,
+      "bytes": 23448
+    },
+    "ar/q/tick-1": {
+      "text": "نحط علامة صح تحت الصورة المناسبة.",
+      "hash": "ee931356b6762098",
+      "durationMs": 2824,
+      "bytes": 23239
+    },
+    "ar/q/tick-2": {
+      "text": "أي صورة تناسب؟ تحتها نحط صح.",
+      "hash": "b0bc41a52e749d71",
+      "durationMs": 3130,
+      "bytes": 25538
+    },
+    "ar/q/verse-1": {
+      "text": "الآية ناقصها كلمة، نختار الكلمة اللي تكملها.",
+      "hash": "ed306ca72fefab7d",
+      "durationMs": 4256,
+      "bytes": 34524
+    },
+    "ar/q/verse-2": {
+      "text": "نتذكر الآية زين، شنو الكلمة الناقصة؟",
+      "hash": "267bfdeb8973d5c7",
+      "durationMs": 3226,
+      "bytes": 26374
+    },
+    "ar/q/verse-3": {
+      "text": "نكمل كتابة الآية من الخيارات.",
+      "hash": "c1003a406594a3c0",
+      "durationMs": 2731,
+      "bytes": 22403
+    },
+    "ar/ui/again-1": {
+      "text": "نجرب وحدة غيرها!",
+      "hash": "3dd48842da534735",
+      "durationMs": 1436,
+      "bytes": 11954
+    },
+    "ar/ui/again-2": {
+      "text": "نحاول مرة ثانية!",
+      "hash": "cffce8ec35b46223",
+      "durationMs": 1499,
+      "bytes": 12581
     },
     "ar/ui/cheer-1": {
-      "text": "كفو!",
-      "hash": "691bf115203a21a3",
-      "durationMs": 853,
-      "bytes": 7357
+      "text": "يا سلام عالشطارة!",
+      "hash": "d6b344bd2b762a2f",
+      "durationMs": 2018,
+      "bytes": 16761
     },
     "ar/ui/cheer-10": {
-      "text": "يا سلام! صح.",
-      "hash": "17f84e5b28b69139",
-      "durationMs": 1973,
-      "bytes": 16343
+      "text": "ذيب!",
+      "hash": "64d8aab77cc16357",
+      "durationMs": 1040,
+      "bytes": 8820
+    },
+    "ar/ui/cheer-11": {
+      "text": "ما شاء الله تبارك الله!",
+      "hash": "89e3bb0572266001",
+      "durationMs": 2720,
+      "bytes": 22403
+    },
+    "ar/ui/cheer-12": {
+      "text": "هذا الجواب!",
+      "hash": "7e0cb52b3222ea01",
+      "durationMs": 1122,
+      "bytes": 9447
     },
     "ar/ui/cheer-2": {
-      "text": "ما شاء الله! صح.",
-      "hash": "1b1894ccde64e863",
-      "durationMs": 1970,
-      "bytes": 16343
+      "text": "بالضبط!",
+      "hash": "c53344df97b26ee6",
+      "durationMs": 1026,
+      "bytes": 8820
     },
     "ar/ui/cheer-3": {
-      "text": "واو! جواب صح!",
-      "hash": "16f0fbe7ad477eed",
-      "durationMs": 1974,
-      "bytes": 16343
+      "text": "زين جذي!",
+      "hash": "035dc8d53c3806e9",
+      "durationMs": 1335,
+      "bytes": 11327
     },
     "ar/ui/cheer-4": {
-      "text": "برافو! جواب ممتاز.",
-      "hash": "437f5c27a4682f59",
-      "durationMs": 2319,
-      "bytes": 19060
+      "text": "الله الله!",
+      "hash": "9309913c51643291",
+      "durationMs": 1956,
+      "bytes": 16134
     },
     "ar/ui/cheer-5": {
-      "text": "الله! جواب حلو.",
-      "hash": "a48a02c8b261ade5",
+      "text": "أحسنتوا!",
+      "hash": "5bca97be8bac20aa",
+      "durationMs": 1281,
+      "bytes": 10909
+    },
+    "ar/ui/cheer-6": {
+      "text": "مية مية!",
+      "hash": "5f30903a02aba575",
+      "durationMs": 1360,
+      "bytes": 11536
+    },
+    "ar/ui/cheer-7": {
+      "text": "عاشت الأيادي!",
+      "hash": "71202d9f937dd746",
+      "durationMs": 1458,
+      "bytes": 12163
+    },
+    "ar/ui/cheer-8": {
+      "text": "حلوة هذي!",
+      "hash": "6511dffb7824724b",
+      "durationMs": 1144,
+      "bytes": 9656
+    },
+    "ar/ui/cheer-9": {
+      "text": "جواب يبرد القلب!",
+      "hash": "8d2e9190100e4c32",
+      "durationMs": 2285,
+      "bytes": 18851
+    },
+    "ar/ui/done-good-1": {
+      "text": "مع التدريب نصير أشطر!",
+      "hash": "280438ba15ea79e9",
+      "durationMs": 2302,
+      "bytes": 19060
+    },
+    "ar/ui/done-good-2": {
+      "text": "حلو، نعيدها مرة ثانية ونتحسن.",
+      "hash": "0b72bf3eea79fe93",
+      "durationMs": 3172,
+      "bytes": 25956
+    },
+    "ar/ui/done-great-1": {
+      "text": "نتيجة حلوة وايد، ما شاء الله!",
+      "hash": "7f392ad104600c36",
+      "durationMs": 2909,
+      "bytes": 23866
+    },
+    "ar/ui/done-great-2": {
+      "text": "خلصنا الجولة بنتيجة تفرح!",
+      "hash": "f3ac6354462e1735",
+      "durationMs": 2614,
+      "bytes": 21567
+    },
+    "ar/ui/intro-islamic-1": {
+      "text": "نموذج اختبار التربية الإسلامية، أسئلته مثل ورقة المدرسة، يلا نبدا!",
+      "hash": "ecc3936f73da0f0b",
+      "durationMs": 5964,
+      "bytes": 48317
+    },
+    "ar/ui/intro-islamic-2": {
+      "text": "هذا مثل اختبار يوم الثلاثا، نحله مع بعض.",
+      "hash": "0ed610e763f2e56e",
+      "durationMs": 3274,
+      "bytes": 26792
+    },
+    "ar/ui/intro-quran-1": {
+      "text": "نموذج اختبار القرآن الكريم، أسئلة من سورة المسد وسورة النصر.",
+      "hash": "b83f5f93183637ac",
+      "durationMs": 5632,
+      "bytes": 45600
+    },
+    "ar/ui/intro-quran-2": {
+      "text": "نتدرب على اختبار يوم الأربعا، يلا نبدا!",
+      "hash": "ab01ee297a07804c",
+      "durationMs": 3291,
+      "bytes": 26792
+    },
+    "ar/ui/retry-1": {
+      "text": "عادي، هذا الجواب الصح.",
+      "hash": "fba60d5e39cf5109",
+      "durationMs": 2109,
+      "bytes": 17388
+    },
+    "ar/ui/retry-2": {
+      "text": "بسيطة، نشوف الجواب الصحيح.",
+      "hash": "fa9ad25a315d310b",
+      "durationMs": 2518,
+      "bytes": 20732
+    },
+    "ar/ui/retry-3": {
+      "text": "محاولة طيبة، والجواب الصح هذا.",
+      "hash": "2d863bba271c53ac",
+      "durationMs": 3218,
+      "bytes": 26374
+    },
+    "ar/ui/retry-4": {
+      "text": "نتعلم منها، وهذا هو الجواب.",
+      "hash": "97f4c85f66010fcc",
+      "durationMs": 2922,
+      "bytes": 23866
+    },
+    "ar/ui/review-1": {
+      "text": "خلنا نشوف الجواب مع بعض.",
+      "hash": "de7c09e04a87c935",
+      "durationMs": 1934,
+      "bytes": 16134
+    },
+    "ar/ui/review-2": {
+      "text": "نتعلمها الحين، والمرة الياية تصير أسهل.",
+      "hash": "e0d6b4a0b679b69f",
+      "durationMs": 3513,
+      "bytes": 28673
+    },
+    "ar/ui/streak-3-1": {
+      "text": "ثلاثة صح، ماشين صح!",
+      "hash": "c5eafac43c8eecab",
+      "durationMs": 2448,
+      "bytes": 20105
+    },
+    "ar/ui/streak-3-2": {
+      "text": "ثلاثة على التوالي، حلو!",
+      "hash": "cec27c96acf81bf7",
+      "durationMs": 2480,
+      "bytes": 20314
+    },
+    "ar/ui/streak-5-1": {
+      "text": "خمسة صح ورا بعض، شي يرفع الراس!",
+      "hash": "477e1da690854e0e",
+      "durationMs": 3622,
+      "bytes": 29509
+    },
+    "ar/ui/streak-5-2": {
+      "text": "خمسة على التوالي، ما شاء الله!",
+      "hash": "81a71c70d49864d1",
+      "durationMs": 2978,
+      "bytes": 24284
+    },
+    "ar/ui/welcome-1": {
+      "text": "هلا والله! نختار درس ونبدا.",
+      "hash": "e76c08c702c3bd76",
+      "durationMs": 2825,
+      "bytes": 23239
+    },
+    "ar/ui/welcome-2": {
+      "text": "حياكم! وين نبدا اليوم؟",
+      "hash": "93769eb7f1bb394a",
+      "durationMs": 2286,
+      "bytes": 18851
+    },
+    "ar/ui/welcome-3": {
+      "text": "يلا، أي درس نختار؟",
+      "hash": "5807df28c6053879",
+      "durationMs": 1953,
+      "bytes": 16134
+    },
+    "fs/s/015179f7": {
+      "text": "سورَةُ النَّصْرِ مَدَنِيَّةٌ",
+      "hash": "0fc542eda9343a4b",
+      "durationMs": 2266,
+      "bytes": 18642
+    },
+    "fs/s/018a5809": {
+      "text": "نَشْكُرُ اللهَ تَعالى عَلى خَلْقِنا في أَحْسَنِ صورَةٍ",
+      "hash": "a48588740d2485ad",
+      "durationMs": 4196,
+      "bytes": 34106
+    },
+    "fs/s/03d02cae": {
+      "text": "الإيمانُ بِالمَلائِكَةِ مِنْ أَرْكانِ الإيمانِ",
+      "hash": "9532082d7071c111",
+      "durationMs": 3313,
+      "bytes": 27001
+    },
+    "fs/s/0505e06b": {
+      "text": "وَسَطُ السّورَةِ",
+      "hash": "5caf5269f49a22dc",
+      "durationMs": 1390,
+      "bytes": 11745
+    },
+    "fs/s/05cf6219": {
+      "text": "بِماذا أَمَرَ اللهُ تَعالى رَسولَهُ صَلّى اللهُ عَلَيْهِ وَسَلَّمَ عِنْدَ فَتْحِ مَكَّةَ؟",
+      "hash": "b8dbb65c7aba1455",
+      "durationMs": 6195,
+      "bytes": 50198
+    },
+    "fs/s/075faa03": {
+      "text": "هَلَكَتْ",
+      "hash": "e91c08196a8db985",
+      "durationMs": 1157,
+      "bytes": 9865
+    },
+    "fs/s/080b0d6f": {
+      "text": "القِيَمَ",
+      "hash": "5b6cf75ee2332aab",
+      "durationMs": 996,
+      "bytes": 8611
+    },
+    "fs/s/09c3f401": {
+      "text": "السّائِلُ في قِصَّةِ حَديثِ الإيمانِ هُوَ:",
+      "hash": "d124fbfab62b7810",
+      "durationMs": 3157,
+      "bytes": 25747
+    },
+    "fs/s/0a713a6f": {
+      "text": "عَدَدُ آياتِ سورَةِ النَّصْرِ ثَلاثُ آياتٍ",
+      "hash": "8d1dcd24d94afd52",
+      "durationMs": 3646,
+      "bytes": 29718
+    },
+    "fs/s/0ae4e8f6": {
+      "text": "مَكِّيَّةٌ",
+      "hash": "d539e014fadb9ce9",
+      "durationMs": 1216,
+      "bytes": 10283
+    },
+    "fs/s/0bf135a6": {
+      "text": "نَزَلَتْ سورَةُ المَسَدِ في:",
+      "hash": "863d7d42c99b5c44",
       "durationMs": 2320,
       "bytes": 19060
     },
-    "ar/ui/cheer-6": {
-      "text": "تمام التمام!",
-      "hash": "77721d814b803515",
-      "durationMs": 1467,
+    "fs/s/0de4d208": {
+      "text": "أَدْعو",
+      "hash": "eed60802f2e28778",
+      "durationMs": 787,
+      "bytes": 6939
+    },
+    "fs/s/0f36d840": {
+      "text": "نَقولُ عِنْدَ ذِكْرِ اسْمِ النَّبِيِّ:",
+      "hash": "d73f7ec85b4de017",
+      "durationMs": 2480,
+      "bytes": 20314
+    },
+    "fs/s/123b86f0": {
+      "text": "اللهُ تَعالى خالِقُ الحَيَواناتِ وَالنَّباتاتِ فَأَبْدَعَ فيها",
+      "hash": "75777315b8fe1ac4",
+      "durationMs": 5647,
+      "bytes": 45809
+    },
+    "fs/s/14ff7dba": {
+      "text": "ظلّل الخيار الذي يبيّن مكان ذكر كلمة تَبَّتْ في السورة الكريمة",
+      "hash": "ad09da6ef1de39e3",
+      "durationMs": 6071,
+      "bytes": 49153
+    },
+    "fs/s/163151a9": {
+      "text": "اليَدِ",
+      "hash": "5bebae4827e1bfb8",
+      "durationMs": 858,
+      "bytes": 7357
+    },
+    "fs/s/163e7419": {
+      "text": "خالِقُ",
+      "hash": "ad41acfdb8eb418d",
+      "durationMs": 983,
+      "bytes": 8402
+    },
+    "fs/s/17dca46f": {
+      "text": "أَوَّلُ السّورَةِ",
+      "hash": "7d47c1ac49aa4e45",
+      "durationMs": 1289,
+      "bytes": 10909
+    },
+    "fs/s/18220905": {
+      "text": "الإيمانُ بِالمَلائِكَةِ",
+      "hash": "21a7fa019096a992",
+      "durationMs": 2016,
+      "bytes": 16761
+    },
+    "fs/s/18bd280a": {
+      "text": "كُلِّ شَيْءٍ",
+      "hash": "7f8b6be81db3884f",
+      "durationMs": 1287,
+      "bytes": 10909
+    },
+    "fs/s/193e78d2": {
+      "text": "خالِقي",
+      "hash": "56a12d92a8ba82e6",
+      "durationMs": 1040,
+      "bytes": 8820
+    },
+    "fs/s/1a5e6eaf": {
+      "text": "لُعْبَةٍ",
+      "hash": "047532b5b5ecbd67",
+      "durationMs": 1165,
+      "bytes": 9865
+    },
+    "fs/s/1b46d9cd": {
+      "text": "عَدَدُ أَرْكانِ الإيمانِ:",
+      "hash": "67acef6e64e05d48",
+      "durationMs": 2160,
+      "bytes": 17806
+    },
+    "fs/s/1cbae598": {
+      "text": "السُّؤالُ الأَوَّلُ كانَ عَنِ:",
+      "hash": "92bd0b77caa44910",
+      "durationMs": 2240,
+      "bytes": 18433
+    },
+    "fs/s/1d31accf": {
+      "text": "الإيمانُ بِاليَوْمِ الآخِرِ مِنْ أَرْكانِ الإيمانِ",
+      "hash": "70672ed0205ba8f9",
+      "durationMs": 3608,
+      "bytes": 29509
+    },
+    "fs/s/1e768446": {
+      "text": "وَرُسُلِهِ",
+      "hash": "4596eb926d7fe171",
+      "durationMs": 1154,
+      "bytes": 9865
+    },
+    "fs/s/1ee70410": {
+      "text": "سَبْعَةٌ",
+      "hash": "63edf4fdf1752109",
+      "durationMs": 770,
+      "bytes": 6730
+    },
+    "fs/s/200acf63": {
+      "text": "صَوْمُ رَمَضانَ",
+      "hash": "3da9b7dd0ba7b064",
+      "durationMs": 1520,
+      "bytes": 12790
+    },
+    "fs/s/2199cb53": {
+      "text": "خَلَقَ اللهُ تَعالى الإِنْسانَ في أَحْسَنِ صورَةٍ",
+      "hash": "7aa04cd26adabec7",
+      "durationMs": 4055,
+      "bytes": 33061
+    },
+    "fs/s/235c4b9c": {
+      "text": "الكَسَلَ",
+      "hash": "b7cbb71f22c9c9ba",
+      "durationMs": 1124,
+      "bytes": 9656
+    },
+    "fs/s/2a82841b": {
+      "text": "لا مَعْبودَ يَسْتَحِقُّ العِبادَةَ إِلّا اللهُ تَعالى وَحْدَهُ",
+      "hash": "0868b3d6a1302e87",
+      "durationMs": 4834,
+      "bytes": 39331
+    },
+    "fs/s/2abc1657": {
+      "text": "الخالِقُ: الَّذي أَوْجَدَ الأَشْياءَ مِنَ العَدَمِ",
+      "hash": "0d8f8081132ff03d",
+      "durationMs": 4012,
+      "bytes": 32643
+    },
+    "fs/s/2b15e9af": {
+      "text": "كَلِمَةُ التَّوْحيدِ:",
+      "hash": "b21f66b36b7d8fcc",
+      "durationMs": 1673,
+      "bytes": 14044
+    },
+    "fs/s/2b857954": {
+      "text": "الجَنَّةَ",
+      "hash": "864a5909c3c8716a",
+      "durationMs": 1077,
+      "bytes": 9238
+    },
+    "fs/s/2b94eac6": {
+      "text": "الإِنْسانُ",
+      "hash": "df2c0325f34516ef",
+      "durationMs": 1201,
+      "bytes": 10074
+    },
+    "fs/s/2c857ae7": {
+      "text": "الجَنَّةُ",
+      "hash": "5ec20ffab2e60cd3",
+      "durationMs": 1111,
+      "bytes": 9447
+    },
+    "fs/s/2d4db350": {
+      "text": "لوّن عدد آيات سورة النصر",
+      "hash": "2cf5232b1b88f653",
+      "durationMs": 2552,
+      "bytes": 20940
+    },
+    "fs/s/2ec94c69": {
+      "text": "سورَةُ النَّصْرِ",
+      "hash": "cf2ac25805135ba3",
+      "durationMs": 1440,
+      "bytes": 12163
+    },
+    "fs/s/3025a59f": {
+      "text": "وَمَلائِكَتِهِ",
+      "hash": "eee701a7ace4c0c6",
+      "durationMs": 1464,
       "bytes": 12372
     },
-    "ar/ui/cheer-7": {
-      "text": "عفية!",
-      "hash": "6d5a1f332f83e757",
+    "fs/s/307e0469": {
+      "text": "ماتَ",
+      "hash": "cee32fb6b0a2c1b3",
+      "durationMs": 912,
+      "bytes": 7775
+    },
+    "fs/s/31cb8ade": {
+      "text": "الإِسْلامِ",
+      "hash": "dacb3d52c59e779e",
+      "durationMs": 1130,
+      "bytes": 9656
+    },
+    "fs/s/323bb704": {
+      "text": "الإيمانُ بِالكُتُبِ",
+      "hash": "8ecead51c886bae0",
+      "durationMs": 1752,
+      "bytes": 14671
+    },
+    "fs/s/324ea0df": {
+      "text": "عَدَدُ آياتِ سورَةِ المَسَدِ ثَلاثُ آياتٍ",
+      "hash": "05c7c0ba46ab25ea",
+      "durationMs": 3602,
+      "bytes": 29300
+    },
+    "fs/s/36a1ae78": {
+      "text": "بِنُزولِ المَطَرِ",
+      "hash": "5a7ee00fe9a3d51a",
+      "durationMs": 1593,
+      "bytes": 13208
+    },
+    "fs/s/36c96799": {
+      "text": "نامَ",
+      "hash": "002a8209ec96cd7d",
+      "durationMs": 1040,
+      "bytes": 8820
+    },
+    "fs/s/38ff8035": {
+      "text": "مَدَنِيَّةٌ",
+      "hash": "cfc1f6d3cb1de049",
+      "durationMs": 1240,
+      "bytes": 10492
+    },
+    "fs/s/457506fa": {
+      "text": "السّائِلُ في قِصَّةِ حَديثِ الإيمانِ هُوَ عُمَرُ بْنُ الخَطّابِ رَضِيَ اللهُ عَنْهُ",
+      "hash": "d32bb6a3d3f057ec",
+      "durationMs": 5710,
+      "bytes": 46227
+    },
+    "fs/s/46a21d5d": {
+      "text": "خَلَقَ اللهُ تَعالى الإِنْسانَ في أَحْسَنِ",
+      "hash": "5d9fc0e6fe00d14c",
+      "durationMs": 3609,
+      "bytes": 29509
+    },
+    "fs/s/486018c1": {
+      "text": "لا مَعْبودَ",
+      "hash": "180ecce824f7af1e",
+      "durationMs": 1562,
+      "bytes": 12999
+    },
+    "fs/s/4b1fa6b4": {
+      "text": "عُمَرُ بْنُ الخَطّابِ رَضِيَ اللهُ عَنْهُ",
+      "hash": "07069bf35a51c603",
+      "durationMs": 2689,
+      "bytes": 21985
+    },
+    "fs/s/4d951965": {
+      "text": "وَبُيوتِهِ",
+      "hash": "dd2e9c3203c90b80",
+      "durationMs": 1276,
+      "bytes": 10700
+    },
+    "fs/s/4f8c3391": {
+      "text": "لوّن عدد أركان الإيمان",
+      "hash": "0326fbe900506483",
+      "durationMs": 2286,
+      "bytes": 18851
+    },
+    "fs/s/501cbb7b": {
+      "text": "الإيمانُ يَغْرِسُ فينا",
+      "hash": "7e40898eeceee9f8",
+      "durationMs": 2443,
+      "bytes": 20105
+    },
+    "fs/s/5242c8ba": {
+      "text": "الإيمانُ بِاليَوْمِ الآخِرِ",
+      "hash": "cb02521ac7bd0946",
+      "durationMs": 2343,
+      "bytes": 19269
+    },
+    "fs/s/52d4485b": {
+      "text": "سُبْحانَ اللهِ وَبِحَمْدِهِ",
+      "hash": "32511961efc1e84b",
+      "durationMs": 2346,
+      "bytes": 19269
+    },
+    "fs/s/56503c25": {
+      "text": "جَماعاتٌ",
+      "hash": "9b28ba59fd78dcd7",
+      "durationMs": 1360,
+      "bytes": 11536
+    },
+    "fs/s/57756094": {
+      "text": "وَأَصْدِقائِهِ",
+      "hash": "f7b94e1865e62d82",
+      "durationMs": 1372,
+      "bytes": 11536
+    },
+    "fs/s/5973a5d3": {
+      "text": "بَيْتي",
+      "hash": "ddca6c7a1a97ce42",
       "durationMs": 880,
       "bytes": 7566
     },
-    "ar/ui/cheer-8": {
-      "text": "صح! رائع.",
-      "hash": "262f0d5ca76615db",
-      "durationMs": 1615,
-      "bytes": 13417
+    "fs/s/5981e691": {
+      "text": "الإيمانُ بِالقَدَرِ",
+      "hash": "0acf47df8b2cccac",
+      "durationMs": 1894,
+      "bytes": 15716
     },
-    "ar/ui/cheer-9": {
-      "text": "زين! جواب صحيح.",
-      "hash": "3f6e49f04141b8b2",
-      "durationMs": 1975,
-      "bytes": 16343
+    "fs/s/5a13f9a6": {
+      "text": "اللهُ تَعالى أَنْزَلَ الأَمْطارَ وَفَجَّرَ الأَنْهارَ",
+      "hash": "96b55f4747e6658b",
+      "durationMs": 4703,
+      "bytes": 38286
     },
-    "ar/ui/done-good": {
-      "text": "حلو! نتدرب مرة ثانية… ونصير أقوى.",
-      "hash": "be2db2a4ee1406f1",
-      "durationMs": 3680,
-      "bytes": 29927
+    "fs/s/5a40d49a": {
+      "text": "ذاتَ اشْتِعالٍ",
+      "hash": "8e9a5ea513dad454",
+      "durationMs": 1726,
+      "bytes": 14462
     },
-    "ar/ui/done-great": {
-      "text": "واو! نتيجة رائعة!",
-      "hash": "cfb4757f5a4bcbf0",
-      "durationMs": 2561,
-      "bytes": 21149
+    "fs/s/5b47e6e4": {
+      "text": "آخِرُ السّورَةِ",
+      "hash": "c18c77542bd98fe6",
+      "durationMs": 1315,
+      "bytes": 11118
     },
-    "ar/ui/match-wrong": {
-      "text": "لا… نجرب مرة ثانية.",
-      "hash": "3f7a6fadd8f0f515",
-      "durationMs": 2351,
+    "fs/s/5b8473f4": {
+      "text": "كَلِمَةُ التَّوْحيدِ مِفْتاحُ",
+      "hash": "f418392d225317b6",
+      "durationMs": 2356,
+      "bytes": 19478
+    },
+    "fs/s/5dc8b5a7": {
+      "text": "خُلُقي",
+      "hash": "8639419a8f6e83ae",
+      "durationMs": 876,
+      "bytes": 7566
+    },
+    "fs/s/5e73adb2": {
+      "text": "بَيْتٍ",
+      "hash": "94d65d2010a81fa2",
+      "durationMs": 1040,
+      "bytes": 8820
+    },
+    "fs/s/5ec7baaf": {
+      "text": "أَرْكانُ الإيمانِ خَمْسَةٌ",
+      "hash": "890fa6bb17c31e84",
+      "durationMs": 2270,
+      "bytes": 18642
+    },
+    "fs/s/5f7fd51f": {
+      "text": "سورَةُ المَسَدِ، مَكِّيَّةٌ أَمْ مَدَنِيَّةٌ؟",
+      "hash": "3a88d4bbec1c19ce",
+      "durationMs": 3717,
+      "bytes": 30345
+    },
+    "fs/s/64d6ed13": {
+      "text": "سُبْحانَ اللهِ، الحَمْدُ لِلّهِ، أَسْتَغْفِرُ اللهَ",
+      "hash": "3901f0719aa8934d",
+      "durationMs": 4521,
+      "bytes": 36823
+    },
+    "fs/s/657cd5dc": {
+      "text": "الفَوْزُ",
+      "hash": "c8c423771e4dc005",
+      "durationMs": 1070,
+      "bytes": 9029
+    },
+    "fs/s/659aafe3": {
+      "text": "كَلِمَةُ التَّوْحيدِ: سُبْحانَ اللهِ وَبِحَمْدِهِ",
+      "hash": "515b55e01c41b65a",
+      "durationMs": 4366,
+      "bytes": 35569
+    },
+    "fs/s/68ac0b35": {
+      "text": "لوّن عدد آيات سورة المسد",
+      "hash": "c5503d40f3afd6da",
+      "durationMs": 2619,
+      "bytes": 21567
+    },
+    "fs/s/69245db4": {
+      "text": "سورَةُ النَّصْرِ مَكِّيَّةٌ",
+      "hash": "adb39f11998404ab",
+      "durationMs": 2365,
+      "bytes": 19478
+    },
+    "fs/s/69d9141d": {
+      "text": "الإِنْسانُ هُوَ الَّذي خَلَقَ الأَرْضَ وَالسَّماءَ",
+      "hash": "9d8e4c71429097ea",
+      "durationMs": 3899,
+      "bytes": 31807
+    },
+    "fs/s/6f2f8f73": {
+      "text": "ما نَفَعَ",
+      "hash": "833cf46ef4e2568f",
+      "durationMs": 1200,
+      "bytes": 10074
+    },
+    "fs/s/7344f1f7": {
+      "text": "مَعْنى كَلِمَةِ التَّوْحيدِ:",
+      "hash": "f66172734ee41928",
+      "durationMs": 2039,
+      "bytes": 16970
+    },
+    "fs/s/77128c21": {
+      "text": "كَلِمَةُ التَّوْحيدِ أَصْلُ العِبادَةِ",
+      "hash": "ac1ec8fcdbf08b34",
+      "durationMs": 3202,
+      "bytes": 26165
+    },
+    "fs/s/789fbf89": {
+      "text": "حَجُّ البَيْتِ",
+      "hash": "487f7debd0ed7fa8",
+      "durationMs": 1444,
+      "bytes": 12163
+    },
+    "fs/s/7a45ae9d": {
+      "text": "مَعْنى لا إِلَهَ إِلّا اللهُ: لا مَعْبودَ يَسْتَحِقُّ العِبادَةَ إِلّا اللهُ تَعالى وَحْدَهُ",
+      "hash": "02874c0c46e17d39",
+      "durationMs": 7818,
+      "bytes": 63154
+    },
+    "fs/s/7b1068d5": {
+      "text": "في عُنُقِها",
+      "hash": "12c388adc98e0c90",
+      "durationMs": 1286,
+      "bytes": 10909
+    },
+    "fs/s/815b210e": {
+      "text": "يَسْتَحِقُّ العِبادَةَ",
+      "hash": "2766e42d6c8c1b81",
+      "durationMs": 1787,
+      "bytes": 14880
+    },
+    "fs/s/855775c2": {
+      "text": "أُكْثِرُ مِنْ قَوْلِ:",
+      "hash": "dbb36f84113f743e",
+      "durationMs": 1546,
+      "bytes": 12999
+    },
+    "fs/s/863cbe8b": {
+      "text": "إِلّا اللهُ",
+      "hash": "35cf03f8833fdb1c",
+      "durationMs": 1387,
+      "bytes": 11745
+    },
+    "fs/s/8728008b": {
+      "text": "بِالحَمْدِ وَالتَّسْبيحِ وَالاسْتِغْفارِ",
+      "hash": "14aae9c01a0b24fe",
+      "durationMs": 3327,
+      "bytes": 27210
+    },
+    "fs/s/8b4994c2": {
+      "text": "الإيمانُ بِالرُّسُلِ",
+      "hash": "9b6f6020956e9f53",
+      "durationMs": 1729,
+      "bytes": 14462
+    },
+    "fs/s/8ced5558": {
+      "text": "النّارُ",
+      "hash": "b3e0e2e453a61c4f",
+      "durationMs": 1096,
+      "bytes": 9238
+    },
+    "fs/s/8ded56eb": {
+      "text": "النّارَ",
+      "hash": "3da1853f876473f4",
+      "durationMs": 1045,
+      "bytes": 8820
+    },
+    "fs/s/8f73cd64": {
+      "text": "قالَ رَسولُ اللهِ صَلّى اللهُ عَلَيْهِ وَسَلَّمَ: ما مِنْ عَبْدٍ قالَ: لا إِلَهَ إِلّا اللهُ، ثُمَّ ماتَ عَلى ذَلِكَ إِلّا دَخَلَ الجَنَّةَ",
+      "hash": "cc5362cc85291cbc",
+      "durationMs": 10715,
+      "bytes": 86351
+    },
+    "fs/s/90111113": {
+      "text": "الخالِقُ المُصَوِّرُ هُوَ",
+      "hash": "fee1e88c59a0bb48",
+      "durationMs": 2270,
+      "bytes": 18642
+    },
+    "fs/s/928b0c2a": {
+      "text": "البَيْتِ",
+      "hash": "bd9c3e673f1e601c",
+      "durationMs": 1281,
+      "bytes": 10909
+    },
+    "fs/s/94d2f372": {
+      "text": "حوّط الكائنات الحية في الصورة",
+      "hash": "f68f7c2cd291d693",
+      "durationMs": 2632,
+      "bytes": 21567
+    },
+    "fs/s/9816df37": {
+      "text": "العِباداتُ وَالطّاعاتُ تُدْخِلُ المُسْلِمَ الجَنَّةَ",
+      "hash": "a359f79d9106bdba",
+      "durationMs": 3908,
+      "bytes": 31807
+    },
+    "fs/s/9a2989df": {
+      "text": "أَرْكانُ الإيمانِ سِتَّةٌ",
+      "hash": "854e92fba60d5233",
+      "durationMs": 2170,
+      "bytes": 18015
+    },
+    "fs/s/9e5acb88": {
+      "text": "حوّط الصورة المناسبة لكلمة أفواجا",
+      "hash": "7c9bb7fbdda87455",
+      "durationMs": 3440,
+      "bytes": 28046
+    },
+    "fs/s/9f6f2920": {
+      "text": "سِتَّةٌ",
+      "hash": "bd1dc20f4480780b",
+      "durationMs": 837,
+      "bytes": 7357
+    },
+    "fs/s/a0cd1794": {
+      "text": "مَعْنى المُصَوِّرِ:",
+      "hash": "2cdd2110526a25a7",
+      "durationMs": 1735,
+      "bytes": 14462
+    },
+    "fs/s/a183ed9f": {
+      "text": "سورَةُ النَّصْرِ، مَكِّيَّةٌ أَمْ مَدَنِيَّةٌ؟",
+      "hash": "96c49d701d93503a",
+      "durationMs": 3360,
+      "bytes": 27419
+    },
+    "fs/s/a4098a87": {
+      "text": "الإيمانِ",
+      "hash": "755c2da83eaebd78",
+      "durationMs": 1161,
+      "bytes": 9865
+    },
+    "fs/s/a492626c": {
+      "text": "بِالنَّوْمِ وَالرّاحَةِ",
+      "hash": "88c4ddad252c4bd5",
+      "durationMs": 2000,
+      "bytes": 16552
+    },
+    "fs/s/a65e2fc7": {
+      "text": "بِالنّاسِ",
+      "hash": "82db14792cd6c9bb",
+      "durationMs": 1177,
+      "bytes": 10074
+    },
+    "fs/s/a6633af5": {
+      "text": "نَدْعو اللهَ تَعالى الخالِقَ المُصَوِّرَ: اللَّهُمَّ أَحْسَنْتَ خَلْقي فَأَحْسِنْ خُلُقي",
+      "hash": "60f5022730bce9f7",
+      "durationMs": 7386,
+      "bytes": 59602
+    },
+    "fs/s/a71bb0d4": {
+      "text": "اللهُ",
+      "hash": "3f63074d96682c09",
+      "durationMs": 1332,
+      "bytes": 11118
+    },
+    "fs/s/a81f2582": {
+      "text": "الإيمانُ يَغْرِسُ فينا القِيَمَ، فَنَعيشُ في أَمْنٍ وَسَلامٍ في بَلَدِنا الكُوَيْتِ",
+      "hash": "46135138b6017628",
+      "durationMs": 7008,
+      "bytes": 56676
+    },
+    "fs/s/ab797a43": {
+      "text": "خَلْقي",
+      "hash": "1264cdc14fc481d6",
+      "durationMs": 950,
+      "bytes": 8193
+    },
+    "fs/s/ad492559": {
+      "text": "الإيمانُ: ما اسْتَقَرَّ في",
+      "hash": "632b75829f6bbafd",
+      "durationMs": 2669,
+      "bytes": 21985
+    },
+    "fs/s/aeb46f51": {
+      "text": "اللّيفُ",
+      "hash": "900e23135c96992f",
+      "durationMs": 1072,
+      "bytes": 9238
+    },
+    "fs/s/b1fe720e": {
+      "text": "الَّذي أَوْجَدَ الأَشْياءَ مِنَ العَدَمِ",
+      "hash": "72ba14d861e3d6bf",
+      "durationMs": 2929,
+      "bytes": 24075
+    },
+    "fs/s/b2049d73": {
+      "text": "ظلّل الخيار الذي يبيّن مكان ذكر كلمة مَسَدٍ في السورة الكريمة",
+      "hash": "1432c5ded2b43cac",
+      "durationMs": 6085,
+      "bytes": 49153
+    },
+    "fs/s/b256c38e": {
+      "text": "خَمْسَةٌ",
+      "hash": "30cd79b9df995c47",
+      "durationMs": 1200,
+      "bytes": 10074
+    },
+    "fs/s/b3e63fe9": {
+      "text": "سورَةُ المَسَدِ",
+      "hash": "4d4915e2b8092fc3",
+      "durationMs": 1440,
+      "bytes": 12163
+    },
+    "fs/s/b4d20f6f": {
+      "text": "الأَسْماكُ وَالطُّيورُ وَالزُّهورُ لَها لَوْنٌ واحِدٌ",
+      "hash": "e210be3e0f6a6b78",
+      "durationMs": 4542,
+      "bytes": 36823
+    },
+    "fs/s/b51624a5": {
+      "text": "لا إِلَهَ إِلّا اللهُ هِيَ كَلِمَةُ التَّوْحيدِ",
+      "hash": "67f2baab150ac634",
+      "durationMs": 4126,
+      "bytes": 33479
+    },
+    "fs/s/b627e5e2": {
+      "text": "مَنْ خَلَقَ الأَرْضَ وَالسَّماءَ؟",
+      "hash": "81a742e2eae81bd5",
+      "durationMs": 2331,
       "bytes": 19269
     },
-    "ar/ui/retry-1": {
-      "text": "مو مشكلة… الجواب الصح…",
-      "hash": "d4023bc2a9fb4b51",
-      "durationMs": 2559,
+    "fs/s/b7630011": {
+      "text": "مَعْنى أَفْواجًا: جَماعاتٌ",
+      "hash": "68d6df76e73712ed",
+      "durationMs": 3200,
+      "bytes": 26165
+    },
+    "fs/s/b981042c": {
+      "text": "العَمَلُ بِكَلِمَةِ التَّوْحيدِ جَزاؤُهُ",
+      "hash": "6d761ce7228ec950",
+      "durationMs": 3357,
+      "bytes": 27419
+    },
+    "fs/s/ba69cee5": {
+      "text": "الكَلامِ السَّيِّئِ",
+      "hash": "2c818cac55684dcb",
+      "durationMs": 1645,
+      "bytes": 13626
+    },
+    "fs/s/bd82aa24": {
+      "text": "القَلْبِ",
+      "hash": "1dcd1a5f88c09b40",
+      "durationMs": 1064,
+      "bytes": 9029
+    },
+    "fs/s/bf125bdf": {
+      "text": "سُبْحانَ اللهِ",
+      "hash": "efca84ef27f25ab8",
+      "durationMs": 1643,
+      "bytes": 13626
+    },
+    "fs/s/c21ef525": {
+      "text": "بِفَتْحِ مَكَّةَ",
+      "hash": "307c7b7b4b7c8373",
+      "durationMs": 1377,
+      "bytes": 11536
+    },
+    "fs/s/c5616e3b": {
+      "text": "أَصْحابِ النَّبِيِّ صَلّى اللهُ عَلَيْهِ وَسَلَّمَ",
+      "hash": "4999573a4ccbcd06",
+      "durationMs": 3304,
+      "bytes": 27001
+    },
+    "fs/s/c607c379": {
+      "text": "بِاللهِ",
+      "hash": "7b2f8b3dd2a47b24",
+      "durationMs": 1152,
+      "bytes": 9865
+    },
+    "fs/s/c770539d": {
+      "text": "وَالقَدَرِ خَيْرِهِ وَشَرِّهِ",
+      "hash": "b0b7d2bb8865e0b5",
+      "durationMs": 2634,
+      "bytes": 21567
+    },
+    "fs/s/c7eebc9a": {
+      "text": "آياتُها ثَلاثٌ",
+      "hash": "6d4865a61f430ad1",
+      "durationMs": 1978,
+      "bytes": 16343
+    },
+    "fs/s/ccc5cd95": {
+      "text": "الَّذي أَعْطى كُلَّ مَخْلوقٍ شَكْلَهُ وَصورَتَهُ وَهَيْئَتَهُ الخاصَّةَ",
+      "hash": "1b1dece2d1ab67bd",
+      "durationMs": 5653,
+      "bytes": 45809
+    },
+    "fs/s/cce7e157": {
+      "text": "ضع دائرة حول أركان الإيمان",
+      "hash": "118245e69fc99fde",
+      "durationMs": 2592,
+      "bytes": 21358
+    },
+    "fs/s/cd17579f": {
+      "text": "وَاليَوْمِ الآخِرِ",
+      "hash": "51438ec128b7f2a3",
+      "durationMs": 1670,
+      "bytes": 13835
+    },
+    "fs/s/d0eac586": {
+      "text": "لا إِلَهَ إِلّا اللهُ",
+      "hash": "204f69dfd63d4813",
+      "durationMs": 2554,
       "bytes": 20940
     },
-    "ar/ui/retry-2": {
-      "text": "قربنا! الجواب الصح…",
-      "hash": "dc437e4238565bf1",
-      "durationMs": 2304,
-      "bytes": 19060
+    "fs/s/d4a2a910": {
+      "text": "عَبْدٍ",
+      "hash": "302a3a0fb0a39d2a",
+      "durationMs": 1007,
+      "bytes": 8611
     },
-    "ar/ui/retry-3": {
-      "text": "خلنا نتعلمها مع بعض… الجواب الصح…",
-      "hash": "74cf9656fe83d22c",
-      "durationMs": 3286,
-      "bytes": 26792
+    "fs/s/d66d2e98": {
+      "text": "إيتاءُ الزَّكاةِ",
+      "hash": "8bc7cb304eca937c",
+      "durationMs": 1710,
+      "bytes": 14253
     },
-    "ar/ui/retry-4": {
-      "text": "محاولة حلوة! الجواب الصح…",
-      "hash": "63bdc19efb1ddd10",
-      "durationMs": 2802,
-      "bytes": 23030
+    "fs/s/d9153c9f": {
+      "text": "الإيمانُ: ما اسْتَقَرَّ في القَلْبِ وَصَدَّقَهُ العَمَلُ",
+      "hash": "5fbc65528248a867",
+      "durationMs": 4615,
+      "bytes": 37450
     },
-    "ar/ui/retry-5": {
-      "text": "نشوف مع بعض… الجواب الصح…",
-      "hash": "3a627ddb334b0d79",
-      "durationMs": 2656,
-      "bytes": 21776
+    "fs/s/d9e55228": {
+      "text": "رَضِيَ اللهُ عَنْهُ",
+      "hash": "56c4b08cd0995602",
+      "durationMs": 1613,
+      "bytes": 13417
     },
-    "ar/ui/review": {
-      "text": "خلنا نتذكر مع بعض…",
-      "hash": "761c595d8d556cdc",
-      "durationMs": 1766,
-      "bytes": 14671
+    "fs/s/daf372f0": {
+      "text": "مَعْنى الخالِقِ:",
+      "hash": "5c7dfd728083fcc8",
+      "durationMs": 1680,
+      "bytes": 14044
     },
-    "ar/ui/test-intro": {
-      "text": "هذا اختبار تجريبي… فيه أسئلة من كل الدروس. يلا نبدأ!",
-      "hash": "dc1d19349831fa74",
-      "durationMs": 5065,
-      "bytes": 41003
+    "fs/s/defebcb1": {
+      "text": "وَكُتُبِهِ",
+      "hash": "589083f7194fc0e1",
+      "durationMs": 1200,
+      "bytes": 10074
     },
-    "ar/ui/welcome": {
-      "text": "هلا! نختار درس ونبدأ.",
-      "hash": "6f0e1e0d8271b73e",
-      "durationMs": 2550,
-      "bytes": 20940
+    "fs/s/e29c8dfe": {
+      "text": "اللهَ تَعالى",
+      "hash": "7e97abf8d6c20b1b",
+      "durationMs": 1474,
+      "bytes": 12372
+    },
+    "fs/s/e2ddc51e": {
+      "text": "السُّؤالُ الثّاني كانَ عَنِ:",
+      "hash": "d3a93d6935ce7563",
+      "durationMs": 2296,
+      "bytes": 18851
+    },
+    "fs/s/e444049f": {
+      "text": "اللهُ تَعالى",
+      "hash": "10a500d9f9cfc33c",
+      "durationMs": 1558,
+      "bytes": 12999
+    },
+    "fs/s/e48219c0": {
+      "text": "اللهُ تَعالى خالِقُ الأَرْضِ وَالسَّماءِ وَما فيهِما",
+      "hash": "ba87ca33ab5eaf07",
+      "durationMs": 4428,
+      "bytes": 35987
+    },
+    "fs/s/e5067d90": {
+      "text": "الإيمانُ بِاللهِ",
+      "hash": "cdb087cbb529ee55",
+      "durationMs": 1777,
+      "bytes": 14880
+    },
+    "fs/s/e532799a": {
+      "text": "بِاللَّعِبِ",
+      "hash": "c59c7e806e3f4432",
+      "durationMs": 1070,
+      "bytes": 9029
+    },
+    "fs/s/e5f21ce9": {
+      "text": "كانَ أَبو لَهَبٍ وَامْرَأَتُهُ مِنْ أَشَدِّ النّاسِ إيذاءً لِلرَّسولِ صَلّى اللهُ عَلَيْهِ وَسَلَّمَ",
+      "hash": "e637773fb4ae8929",
+      "durationMs": 7176,
+      "bytes": 57930
+    },
+    "fs/s/ecd7c368": {
+      "text": "صَلّى اللهُ عَلَيْهِ وَسَلَّمَ",
+      "hash": "cc6a839099f53b6e",
+      "durationMs": 2279,
+      "bytes": 18851
+    },
+    "fs/s/efd3db35": {
+      "text": "جِبْريلُ عَلَيْهِ السَّلامُ",
+      "hash": "73f22dde2ddda5c2",
+      "durationMs": 1962,
+      "bytes": 16343
+    },
+    "fs/s/f13ea69a": {
+      "text": "بِماذا بَشَّرَ اللهُ تَعالى نَبِيَّنا مُحَمَّدًا صَلّى اللهُ عَلَيْهِ وَسَلَّمَ؟",
+      "hash": "458efc86e10796f0",
+      "durationMs": 5647,
+      "bytes": 45809
+    },
+    "fs/s/f143e834": {
+      "text": "سورَةُ المَسَدِ مَكِّيَّةٌ",
+      "hash": "7ef9d445a10c5332",
+      "durationMs": 2515,
+      "bytes": 20732
+    },
+    "fs/s/f172ece1": {
+      "text": "آياتُها خَمْسٌ",
+      "hash": "892a0fcd64b0dfeb",
+      "durationMs": 1950,
+      "bytes": 16134
+    },
+    "fs/s/f20d8ded": {
+      "text": "صورَةٍ",
+      "hash": "a33c675cca75ec03",
+      "durationMs": 1136,
+      "bytes": 9656
+    },
+    "fs/s/f2f45452": {
+      "text": "وَدَفاتِرِهِ",
+      "hash": "13ab5c50a2ed171f",
+      "durationMs": 1378,
+      "bytes": 11536
+    },
+    "fs/s/f3615874": {
+      "text": "ثَوْبي",
+      "hash": "42cf988be7f44fe6",
+      "durationMs": 935,
+      "bytes": 7984
+    },
+    "fs/s/f366d79c": {
+      "text": "اللهُ تَعالى خالِقُ كُلِّ شَيْءٍ",
+      "hash": "d9e648cb495f556a",
+      "durationMs": 3200,
+      "bytes": 26165
+    },
+    "fs/s/f55fdbd3": {
+      "text": "وَيَوْمِ العيدِ",
+      "hash": "2a7aca05df2c4397",
+      "durationMs": 1520,
+      "bytes": 12790
+    },
+    "fs/s/f6d6d969": {
+      "text": "عَنْ عُمَرَ بْنِ الخَطّابِ رَضِيَ اللهُ عَنْهُ قالَ: جاءَ جِبْريلُ عَلَيْهِ السَّلامُ إِلى النَّبِيِّ صَلّى اللهُ عَلَيْهِ وَسَلَّمَ وَسَأَلَهُ: فَأَخْبِرْني عَنِ الإيمانِ، قالَ: أَنْ تُؤْمِنَ بِاللهِ وَمَلائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ وَاليَوْمِ الآخِرِ، وَتُؤْمِنَ بِالقَدَرِ خَيْرِهِ وَشَرِّهِ",
+      "hash": "29d910183777e882",
+      "durationMs": 19720,
+      "bytes": 158240
+    },
+    "fs/s/f9def7b2": {
+      "text": "عَمِّ النَّبِيِّ صَلّى اللهُ عَلَيْهِ وَسَلَّمَ أَبي لَهَبٍ وَزَوْجَتِهِ",
+      "hash": "50993816b080ddd1",
+      "durationMs": 4954,
+      "bytes": 40167
+    },
+    "fs/s/ff24364e": {
+      "text": "بِالقَدَرِ",
+      "hash": "4b7e9ca5e59a5c9f",
+      "durationMs": 1120,
+      "bytes": 9447
     }
   }
 }

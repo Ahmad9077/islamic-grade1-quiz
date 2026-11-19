@@ -46,6 +46,10 @@ export async function answer(page: Page, correct: boolean): Promise<Question> {
     const picks = correct ? shown.filter((id) => good.has(id)) : [shown.find((id) => !good.has(id))!]
     for (const id of picks) await section.locator(`.picture-button[data-option="${id}"]`).click()
     await section.locator('.check-button').click()
+  } else if (question.kind === 'hub') {
+    const picks = correct ? question.good : [question.options.find((o) => !question.good.includes(o.id))!.id]
+    for (const id of picks) await section.locator(`.hub-item[data-option="${id}"]`).click()
+    await section.locator('.check-button').click()
   } else if (question.kind === 'mark') {
     const good = new Set(question.pictureDraw!.good.map((o) => o.id))
     const shown = await shownIds('.mark-cell')

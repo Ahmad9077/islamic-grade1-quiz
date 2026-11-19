@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { wakeAudio } from './audio/context'
+import { wakeAudio, watchAudio } from './audio/context'
 import { Narrator } from './audio/player'
 import { NarratorContext } from './audio/NarratorContext'
 import { setSfxEnabled } from './audio/sfx'
-import { clip, type TopicId } from './data/catalog'
+import { subjectOf, type Subject, type TopicId } from './data/catalog'
 import { loadProgress, recordRound, saveProgress, type SavedProgress } from './domain/progress'
 import { buildPractice, buildTest, starsFor } from './domain/round'
+import { sayLine } from './domain/voice'
 import type { BootstrapContext } from './hub/bootstrap'
 import type { Attempt, HubBridge } from './hub/bridge'
 import { Home } from './components/Home'
@@ -57,17 +58,13 @@ export default function App({ context, bridge }: { context: BootstrapContext; br
     window.scrollTo({ top: 0 })
   }, [screen])
 
-  // Any tap wakes audio that the browser paused (for example after switching apps).
-  useEffect(() => {
-    window.addEventListener('pointerdown', wakeAudio, { passive: true })
-    return () => window.removeEventListener('pointerdown', wakeAudio)
-  }, [])
+  // Any tap brings back sound the browser took away (for example after switching apps).
+  useEffect(() => watchAudio(), [])
 
   const start = useCallback(() => {
     wakeAudio()
     setScreen({ name: 'home' })
-    void narrator.play([{ clip: clip.ui('welcome') }])
-    narrator.preload([clip.ui('test-intro')])
+    void narrator.play([{ clip: sayLine('welcome').clip }])
   }, [narrator])
 
   const startPractice = useCallback(
@@ -75,21 +72,27 @@ export default function App({ context, bridge }: { context: BootstrapContext; br
       roundId.current += 1
       setScreen({
         name: 'quiz',
-        round: { id: roundId.current, kind: 'practice', tone: topic, questions: buildPractice(topic, context.preferredKeys, progress.recent) },
+        round: { id: roundId.current, kind: 'practice', subject: subjectOf(topic), tone: topic, questions: buildPractice(topic, context.preferredKeys, progress.recent) },
       })
     },
     [context.preferredKeys, progress.recent],
   )
 
-  const startTest = useCallback(() => {
-    roundId.current += 1
-    setScreen({ name: 'quiz', round: { id: roundId.current, kind: 'test', tone: 'test', questions: buildTest(context.preferredKeys, progress.recent) } })
-  }, [context.preferredKeys, progress.recent])
+  const startTest = useCallback(
+    (subject: Subject) => {
+      roundId.current += 1
+      setScreen({
+        name: 'quiz',
+        round: { id: roundId.current, kind: 'test', subject, tone: `test-${subject}`, questions: buildTest(subject, context.preferredKeys, progress.recent) },
+      })
+    },
+    [context.preferredKeys, progress.recent],
+  )
 
   const finishRound = useCallback(
     (round: Round, attempts: Attempt[]) => {
       const score = attempts.filter((attempt) => attempt.correct).length
-      const key = round.kind === 'test' ? 'test' : (round.tone as TopicId)
+      const key = round.kind === 'test' ? (`test-${round.subject}` as const) : (round.tone as TopicId)
       setProgress((current) => recordRound(current, key, starsFor(score, attempts.length), attempts.map((a) => a.questionKey)))
       void bridge.reportRound(attempts, {
         kind: round.kind,
@@ -128,7 +131,7 @@ export default function App({ context, bridge }: { context: BootstrapContext; br
         {screen.name === 'quiz' ? (
           <QuizScreen
             round={screen.round}
-            intro={screen.round.kind === 'test' ? clip.ui('test-intro') : undefined}
+            intro={screen.round.kind === 'test' ? sayLine(screen.round.subject === 'quran' ? 'intro-quran' : 'intro-islamic').clip : undefined}
             onExit={goHome}
             onFinish={(attempts) => finishRound(screen.round, attempts)}
           />
@@ -137,7 +140,7 @@ export default function App({ context, bridge }: { context: BootstrapContext; br
           <ResultsScreen
             round={screen.round}
             attempts={screen.attempts}
-            onAgain={() => (screen.round.kind === 'test' ? startTest() : startPractice(screen.round.tone as TopicId))}
+            onAgain={() => (screen.round.kind === 'test' ? startTest(screen.round.subject) : startPractice(screen.round.tone as TopicId))}
             onHome={goHome}
           />
         ) : null}

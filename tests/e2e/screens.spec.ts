@@ -2,9 +2,9 @@ import { expect, test } from '@playwright/test'
 import { answer, start } from './helpers'
 
 // Visual review captures: run with SCREENS=1 npx playwright test screens
-// (SCREENS_TOPIC picks the lesson, default arkan).
+// (SCREENS_TOPIC picks the lesson, default iman).
 const path = '/'
-const topic = process.env.SCREENS_TOPIC ?? 'arkan'
+const topic = process.env.SCREENS_TOPIC ?? 'iman'
 test.skip(!process.env.SCREENS, 'screenshots only on request')
 
 test('capture every screen', async ({ page }, info) => {
